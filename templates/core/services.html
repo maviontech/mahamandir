@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Services &amp; Seva — {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<section class="page-hero" style="background-image: linear-gradient(rgba(28,16,6,0.7), rgba(28,16,6,0.8)), url('{% static 'img/mahamandir/official-mandir.jpg' %}');">
+  <div class="container page-hero__inner">
+    <span class="kicker reveal">Initiatives &amp; Teachings</span>
+    <h1 class="reveal">The Mahamandir &amp; its works</h1>
+    <p class="lede reveal">
+      From the marble sanctum to medicinal gardens, from the annual
+      Varshikotsav to welfare programs for rural India — the teachings of
+      the Swarved unfold in silence and in service.
+    </p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="services-long">
+      {% for s in services %}
+      <article class="service-long reveal {% if forloop.counter|divisibleby:2 %}service-long--flip{% endif %}" style="--i: {{ forloop.counter0 }};" id="{{ s.slug }}">
+        <div class="service-long__media">
+          <div class="frame frame--ornate">
+            <img src="{% static s.image %}" alt="{{ s.title }}" loading="lazy" />
+          </div>
+        </div>
+        <div class="service-long__body">
+          <div class="service-long__icon" aria-hidden="true">
+            {% if s.icon == 'temple' %}🛕{% elif s.icon == 'book' %}📖{% elif s.icon == 'dove' %}🕊️{% elif s.icon == 'lotus' %}🪷{% elif s.icon == 'leaf' %}🌿{% elif s.icon == 'hands' %}🤝{% elif s.icon == 'eye' %}👁️{% elif s.icon == 'fire' %}🔥{% else %}🌟{% endif %}
+          </div>
+          <span class="kicker">0{{ forloop.counter }} · Initiative</span>
+          <h2>{{ s.title }}</h2>
+          <p class="lede">{{ s.short }}</p>
+          <p>{{ s.long }}</p>
+          <a href="{% url 'core:donate' %}" class="link-arrow">Support this seva &nbsp;→</a>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section--amber donate-cta">
+  <div class="container donate-cta__inner reveal">
+    <div>
+      <h2>Support the Sansthan</h2>
+      <p class="lede">Every contribution becomes a lamp of light — free meditation, free teaching, free welfare for all.</p>
+    </div>
+    <a href="{% url 'core:donate' %}" class="btn btn--primary btn--lg">Contribute Now</a>
+  </div>
+</section>
+{% endblock %}

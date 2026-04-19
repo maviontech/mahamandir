@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Events &amp; Festivals — {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<section class="page-hero" style="background-image: linear-gradient(rgba(28,16,6,0.7), rgba(28,16,6,0.8)), url('{% static 'img/mahamandir/official-mandir.jpg' %}');">
+  <div class="container page-hero__inner">
+    <span class="kicker reveal">Calendar</span>
+    <h1 class="reveal">Varshikotsav &amp; Celebrations</h1>
+    <p class="lede reveal">
+      The year of the Vihangam Yoga Sansthan unfolds as a garland of sacred
+      days — of remembrance, celebration, and collective practice. Join us.
+    </p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="events-timeline">
+      {% for e in events %}
+      <article class="event-row reveal {% if forloop.counter|divisibleby:2 %}event-row--flip{% endif %}" style="--i: {{ forloop.counter0 }};">
+        <div class="event-row__media">
+          <div class="frame frame--ornate">
+            <img src="{% static e.image %}" alt="{{ e.title }}" loading="lazy" />
+          </div>
+          <div class="event-row__date">
+            <strong>{{ e.day }}</strong>
+            <span>{{ e.month }}</span>
+            <small>2026</small>
+          </div>
+        </div>
+        <div class="event-row__body">
+          <h2>{{ e.title }}</h2>
+          <p class="lede">{{ e.description }}</p>
+          <div class="event-row__meta">
+            <span>📍 {{ e.location }}</span>
+            <span>⏰ {{ e.time }}</span>
+            <span>🗓 {{ e.date }}</span>
+          </div>
+          <a href="{% url 'core:contact' %}?event={{ e.title|urlencode }}" class="link-arrow">Register interest &nbsp;→</a>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section--amber donate-cta">
+  <div class="container donate-cta__inner reveal">
+    <div>
+      <h2>Cannot make it in person?</h2>
+      <p class="lede">Follow the live satsang and contribute to the seva from wherever you are.</p>
+    </div>
+    <a href="{% url 'core:donate' %}" class="btn btn--primary btn--lg">Support an Event</a>
+  </div>
+</section>
+{% endblock %}

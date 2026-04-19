@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}The Mandir — Modern Architecture with Spiritual Roots{% endblock %}
+
+{% block content %}
+<section class="page-hero page-hero--deep" style="background-image: linear-gradient(rgba(20,10,4,0.55), rgba(40,22,10,0.8)), url('{% static 'img/mahamandir/temple-night.jpg' %}');">
+  <div class="container page-hero__inner">
+    <span class="kicker reveal">The Mandir</span>
+    <h1 class="reveal">Modern Architecture with Spiritual Roots</h1>
+    <p class="lede reveal">
+      The Temple of Spirituality — a 300,000 sq. ft. sanctuary carrying
+      3,137 Swarved verses, crowned by a 125-petal lotus dome.
+    </p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container grid grid--2 grid--center-gap">
+    <div class="reveal">
+      <span class="kicker">Architecture</span>
+      <h2>An amalgamation of ancient philosophy and modern craft</h2>
+      <p>
+        Rising in seven storeys above the village of Umraha on the outskirts
+        of Varanasi, the Mahamandir is clad in pink sandstone and adorned
+        within by gleaming Makrana marble. Every pillar, every archway
+        carries the mark of artisans who have offered their craft as worship.
+      </p>
+      <p>
+        Its sandstone architectural elements reflect classical Indian
+        heritage, while its engineering supports one continuous meditation
+        hall for over <strong>20,000 sadhaks</strong> seated together in silence.
+      </p>
+    </div>
+    <div class="reveal">
+      <div class="frame frame--ornate">
+        <img src="{% static 'img/mahamandir/official-gate.jpg' %}" alt="The ceremonial gate of the Mahamandir" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--cream">
+  <div class="container">
+    <header class="section-head reveal center">
+      <span class="kicker">Inside the Mahamandir</span>
+      <h2>Scripture carved in marble</h2>
+      <p class="lede">
+        3,137 Swarved verses line the walls — the only temple in the world
+        where the scripture <em>is</em> the sanctum.
+      </p>
+    </header>
+
+    <div class="feature-grid">
+      <article class="feature-card reveal">
+        <span class="feature-card__num">01</span>
+        <h3>The Marble Verses</h3>
+        <p>Every one of the 3,137 Swarved verses is engraved into Makrana marble — a meditation in itself to read them all.</p>
+      </article>
+      <article class="feature-card reveal">
+        <span class="feature-card__num">02</span>
+        <h3>20,000 Seats</h3>
+        <p>A single continuous meditation hall that holds over twenty thousand sadhaks in a silence you can almost hear.</p>
+      </article>
+      <article class="feature-card reveal">
+        <span class="feature-card__num">03</span>
+        <h3>Seven Storeys</h3>
+        <p>A seven-level superstructure spanning 300,000 square feet — each level dedicated to a different dimension of practice.</p>
+      </article>
+      <article class="feature-card reveal">
+        <span class="feature-card__num">04</span>
+        <h3>125-Petal Lotus Dome</h3>
+        <p>The crowning dome is shaped as a hundred-and-twenty-five-petal lotus — a signature of the Mahamandir’s skyline.</p>
+      </article>
+      <article class="feature-card reveal">
+        <span class="feature-card__num">05</span>
+        <h3>Medicinal Gardens</h3>
+        <p>The complex is ringed by extensive Ayurvedic herb gardens and a research centre for the study of conscious entities.</p>
+      </article>
+      <article class="feature-card reveal">
+        <span class="feature-card__num">06</span>
+        <h3>Free Entry, Always</h3>
+        <p>No fee is ever charged — for meditation, darshan, worship or satsang. The Mahamandir is a non-profit initiative of the Sansthan.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <header class="section-head reveal center">
+      <span class="kicker">A Glimpse Within</span>
+      <h2>The Mahamandir in Light and Silence</h2>
+    </header>
+    <div class="mosaic">
+      <a class="mosaic__tile mosaic__tile--wide reveal" href="{% static 'img/mahamandir/temple-night.jpg' %}" data-lightbox="mandir" data-caption="The Mahamandir — illuminated at night">
+        <img src="{% static 'img/mahamandir/temple-night.jpg' %}" alt="Temple at night" loading="lazy" />
+      </a>
+      <a class="mosaic__tile reveal" href="{% static 'img/mahamandir/official-gate.jpg' %}" data-lightbox="mandir" data-caption="The ceremonial gate">
+        <img src="{% static 'img/mahamandir/official-gate.jpg' %}" alt="Gate" loading="lazy" />
+      </a>
+      <a class="mosaic__tile reveal" href="{% static 'img/mahamandir/official-gallery-1.jpg' %}" data-lightbox="mandir" data-caption="Gallery view one">
+        <img src="{% static 'img/mahamandir/official-gallery-1.jpg' %}" alt="Gallery 1" loading="lazy" />
+      </a>
+      <a class="mosaic__tile reveal" href="{% static 'img/mahamandir/official-gallery-2.jpg' %}" data-lightbox="mandir" data-caption="Gallery view two">
+        <img src="{% static 'img/mahamandir/official-gallery-2.jpg' %}" alt="Gallery 2" loading="lazy" />
+      </a>
+      <a class="mosaic__tile mosaic__tile--wide reveal" href="{% static 'img/mahamandir/official-mandir.jpg' %}" data-lightbox="mandir" data-caption="The Mandir — full complex">
+        <img src="{% static 'img/mahamandir/official-mandir.jpg' %}" alt="Full complex" loading="lazy" />
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section section--amber visit-info">
+  <div class="container">
+    <header class="section-head reveal center">
+      <span class="kicker">Plan Your Visit</span>
+      <h2>When to come</h2>
+    </header>
+
+    <div class="visit-grid">
+      <div class="visit-card reveal">
+        <h3>Summer Hours</h3>
+        <p class="visit-time">{{ HOURS.summer }}</p>
+        <p class="muted small">April — September</p>
+      </div>
+      <div class="visit-card reveal">
+        <h3>Winter Hours</h3>
+        <p class="visit-time">{{ HOURS.winter }}</p>
+        <p class="muted small">October — March</p>
+      </div>
+      <div class="visit-card reveal">
+        <h3>Morning Darshan</h3>
+        <p class="visit-time">{{ HOURS.darshan_morning }}</p>
+        <p class="muted small">The most auspicious hours</p>
+      </div>
+      <div class="visit-card reveal">
+        <h3>Evening Darshan</h3>
+        <p class="visit-time">{{ HOURS.darshan_evening }}</p>
+        <p class="muted small">Aarti &amp; meditation</p>
+      </div>
+    </div>
+
+    <div class="center reveal" style="margin-top:3rem;">
+      <a href="{% url 'core:contact' %}" class="btn btn--primary">Get Directions</a>
+    </div>
+  </div>
+</section>
+
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <button class="lightbox__close" id="lightboxClose" aria-label="Close">×</button>
+  <div class="lightbox__content">
+    <img class="lightbox__img" id="lightboxImg" src="" alt="" />
+    <p class="lightbox__caption" id="lightboxCaption"></p>
+  </div>
+</div>
+{% endblock %}

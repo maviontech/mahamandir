@@ -1,0 +1,44 @@
+{% load static %}
+<header class="site-header" id="siteHeader">
+  <div class="site-header__top">
+    <div class="container site-header__top-inner">
+      <div class="site-header__contact">
+        <span>📞 {{ CONTACT.phone }}</span>
+        <span class="dot">·</span>
+        <span>✉ {{ CONTACT.email }}</span>
+      </div>
+      <div class="site-header__social">
+        <a href="{{ SOCIAL.facebook }}" aria-label="Facebook" target="_blank" rel="noopener">f</a>
+        <a href="{{ SOCIAL.twitter }}" aria-label="Twitter" target="_blank" rel="noopener">𝕏</a>
+        <a href="{{ SOCIAL.instagram }}" aria-label="Instagram" target="_blank" rel="noopener">◎</a>
+        <a href="{{ SOCIAL.youtube }}" aria-label="YouTube" target="_blank" rel="noopener">▶</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container site-header__main">
+    <a href="{% url 'core:home' %}" class="brand" aria-label="{{ SITE_NAME }} home">
+      <img class="brand__mark brand__mark--svg" src="{% static 'img/vihangam-symbol.jpg' %}" alt="" aria-hidden="true" />
+      <span class="brand__text">
+        <strong>Swarved Mahamandir</strong>
+        <small>Enlightenment Enshrined</small>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Primary">
+      <button class="nav__toggle" id="navToggle" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav__list" id="navList">
+        <li><a href="{% url 'core:home' %}" class="{% if active == 'home' %}is-active{% endif %}">Home</a></li>
+        <li><a href="{% url 'core:mahamandir' %}" class="{% if active == 'mahamandir' %}is-active{% endif %}">The Mandir</a></li>
+        <li><a href="{% url 'core:about' %}" class="{% if active == 'about' %}is-active{% endif %}">The Swarved</a></li>
+        <li><a href="{% url 'core:services' %}" class="{% if active == 'services' %}is-active{% endif %}">Initiatives</a></li>
+        <li><a href="{% url 'core:gallery' %}" class="{% if active == 'gallery' %}is-active{% endif %}">Gallery</a></li>
+        <li><a href="{% url 'core:events' %}" class="{% if active == 'events' %}is-active{% endif %}">Events</a></li>
+        <li><a href="{% url 'core:contact' %}" class="{% if active == 'contact' %}is-active{% endif %}">Contact</a></li>
+        <li><a href="{% url 'core:donate' %}" class="btn btn--accent btn--sm">Donate</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>

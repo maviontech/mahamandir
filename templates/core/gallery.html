@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Gallery — {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<section class="page-hero" style="background-image: linear-gradient(rgba(28,16,6,0.65), rgba(28,16,6,0.8)), url('{% static 'img/mahamandir/temple-night.jpg' %}');">
+  <div class="container page-hero__inner">
+    <span class="kicker reveal">Gallery</span>
+    <h1 class="reveal">Moments of Stillness</h1>
+    <p class="lede reveal">
+      A glimpse into the life of the Dham — its temple, its children, its
+      cows, and its thousands of seekers in quiet service.
+    </p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="gallery-cats">
+      {% for cat in categories %}
+      <a href="{% url 'core:gallery_category' cat.slug %}" class="gallery-cat reveal" style="--i: {{ forloop.counter0 }};">
+        <div class="gallery-cat__img">
+          <img src="{% static cat.cover %}" alt="{{ cat.title }}" loading="lazy" />
+          <div class="gallery-cat__overlay">
+            <span class="chip chip--light">{{ cat.images|length }} photos</span>
+          </div>
+        </div>
+        <div class="gallery-cat__body">
+          <h3>{{ cat.title }}</h3>
+          <p>{{ cat.description }}</p>
+          <span class="link-arrow">View gallery &nbsp;→</span>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section--cream">
+  <div class="container">
+    <header class="section-head reveal center">
+      <span class="kicker">Featured Moments</span>
+      <h2>From the Mahamandir archive</h2>
+    </header>
+    <div class="mosaic">
+      <a class="mosaic__tile mosaic__tile--wide reveal" href="{% static 'img/mahamandir/temple-night.jpg' %}" data-lightbox="featured" data-caption="The Mahamandir illuminated at night">
+        <img src="{% static 'img/mahamandir/temple-night.jpg' %}" alt="Temple at night" loading="lazy" />
+      </a>
+      <a class="mosaic__tile reveal" href="{% static 'img/mahamandir/official-gate.jpg' %}" data-lightbox="featured" data-caption="The ceremonial gate">
+        <img src="{% static 'img/mahamandir/official-gate.jpg' %}" alt="Gate" loading="lazy" />
+      </a>
+      <a class="mosaic__tile reveal" href="{% static 'img/mahamandir/official-gallery-1.jpg' %}" data-lightbox="featured" data-caption="Gallery view">
+        <img src="{% static 'img/mahamandir/official-gallery-1.jpg' %}" alt="Gallery" loading="lazy" />
+      </a>
+      <a class="mosaic__tile reveal" href="{% static 'img/mahamandir/official-gallery-2.jpg' %}" data-lightbox="featured" data-caption="Craft and detail">
+        <img src="{% static 'img/mahamandir/official-gallery-2.jpg' %}" alt="Detail" loading="lazy" />
+      </a>
+      <a class="mosaic__tile mosaic__tile--wide reveal" href="{% static 'img/mahamandir/official-mandir.jpg' %}" data-lightbox="featured" data-caption="The Mahamandir — full complex">
+        <img src="{% static 'img/mahamandir/official-mandir.jpg' %}" alt="Full complex" loading="lazy" />
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <button class="lightbox__close" id="lightboxClose" aria-label="Close">×</button>
+  <div class="lightbox__content">
+    <img class="lightbox__img" id="lightboxImg" src="" alt="" />
+    <p class="lightbox__caption" id="lightboxCaption"></p>
+  </div>
+</div>
+{% endblock %}

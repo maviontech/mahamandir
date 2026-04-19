@@ -1,0 +1,257 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Swarved Mahamandir — Enlightenment Enshrined{% endblock %}
+{% block body_class %}page-home{% endblock %}
+
+{% block content %}
+
+<!-- ==================== HERO / ENTRY ==================== -->
+<section class="hero" id="hero" style="background-image: linear-gradient(to bottom, rgba(20,10,4,0.45), rgba(40,20,8,0.7)), url('{% static "img/mahamandir/temple-night.jpg" %}');">
+  <div class="hero__backdrop" aria-hidden="true">
+    <div class="hero__mist"></div>
+  </div>
+
+  <div class="hero__inner container">
+    <p class="hero__eyebrow reveal">
+      <span class="hero__eyebrow-line"></span>
+      <span>Varanasi · Umraha · Inaugurated 2023</span>
+      <span class="hero__eyebrow-line"></span>
+    </p>
+
+    <h1 class="hero__title reveal">
+      <span class="hero__title-sanskrit">स्वर्वेद&nbsp;महामन्दिर</span>
+      <span class="hero__title-english">Swarved Mahamandir</span>
+    </h1>
+
+    <p class="hero__sub reveal">
+      <em>Enlightenment Enshrined</em> — The world’s largest meditation centre,
+      a sanctuary where 3,137 verses of the Swarved are carved into marble and
+      twenty thousand seekers may sit as one in silence.
+    </p>
+
+    <div class="hero__cta reveal">
+      <a href="{% url 'core:mahamandir' %}" class="btn btn--primary">Enter the Mahamandir</a>
+      <a href="{% url 'core:about' %}" class="btn btn--ghost">The Swarved</a>
+    </div>
+
+    <div class="hero__scroll reveal">
+      <span></span>
+      <small>scroll in stillness</small>
+    </div>
+  </div>
+
+  <div class="hero__lamps" aria-hidden="true">
+    <div class="lamp lamp--1">🪔</div>
+    <div class="lamp lamp--2">🪔</div>
+    <div class="lamp lamp--3">🪔</div>
+  </div>
+</section>
+
+<!-- ==================== INVOCATION ==================== -->
+<section class="invocation">
+  <img class="vy-watermark vy-watermark--left" src="{% static 'img/vihangam-symbol.jpg' %}" alt="" aria-hidden="true" />
+  <img class="vy-watermark" src="{% static 'img/vihangam-symbol.jpg' %}" alt="" aria-hidden="true" />
+  <div class="container invocation__inner">
+    <div class="vy-divider reveal" aria-hidden="true">
+      <img src="{% static 'img/vihangam-symbol.jpg' %}" alt="" />
+    </div>
+    <p class="invocation__mantra reveal">
+      <em>“स्वर्वेद is the treasure trove, conscious effulgence of my inner self;<br/>
+      incessant divine light of the temple of my heart.”</em>
+    </p>
+    <p class="invocation__translation reveal">
+      — Anant Shree Sadguru Sadafal Deo Ji Maharaj, in the preface to the Swarved
+    </p>
+  </div>
+</section>
+
+<!-- ==================== ABOUT INTRO ==================== -->
+<section class="section about-intro">
+  <div class="container grid grid--2 grid--center-gap">
+    <div class="about-intro__media reveal">
+      <div class="frame frame--ornate">
+        <img src="{% static 'img/mahamandir/official-mandir.jpg' %}" alt="The Swarved Mahamandir" />
+      </div>
+      <div class="badge-floating">
+        <strong>3,137</strong>
+        <small>Swarved verses<br/>on Makrana marble</small>
+      </div>
+    </div>
+
+    <div class="about-intro__copy reveal">
+      <span class="kicker">The Temple of Spirituality</span>
+      <h2>Modern Architecture with Spiritual Roots</h2>
+      <p>
+        The Swarved Mahamandir is a meditation centre dedicated to the human race
+        — for their moral and spiritual growth. Spanning over 300,000 square feet
+        and crowned by a 125-petal lotus dome, it rises above the fields of Umraha,
+        on the outskirts of the holy city of Varanasi.
+      </p>
+      <p>
+        It is an amalgamation of ancient philosophy, spirituality and modern
+        architecture — a gathering space for truth-seekers to encounter
+        consciousness beyond physical science.
+      </p>
+      <a href="{% url 'core:about' %}" class="link-arrow">Read about the Swarved &nbsp;→</a>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== STATS ==================== -->
+<section class="section section--amber stats-band">
+  <div class="container stats-grid">
+    {% for s in stats %}
+    <div class="stat reveal">
+      <strong class="stat__number">{{ s.number }}</strong>
+      <span class="stat__label">{{ s.label }}</span>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- ==================== OFFERINGS ==================== -->
+<section class="section offerings">
+  <div class="container">
+    <header class="section-head reveal">
+      <span class="kicker">What the Mahamandir offers</span>
+      <h2>Paths to the Inner Light</h2>
+      <p class="lede">
+        Four simple invitations — each a doorway into the same stillness.
+      </p>
+    </header>
+
+    <div class="offerings__grid">
+      {% for o in offerings %}
+      <article class="offering-card reveal" style="--i: {{ forloop.counter0 }};">
+        <div class="offering-card__icon">
+          {% if o.icon == 'meditation' %}🧘{% elif o.icon == 'satsang' %}🕉️{% elif o.icon == 'darshan' %}🪔{% else %}🤲{% endif %}
+        </div>
+        <h3>{{ o.title }}</h3>
+        <p>{{ o.text }}</p>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SERVICES ==================== -->
+<section class="section section--cream services-preview">
+  <div class="container">
+    <header class="section-head reveal">
+      <span class="kicker">The Mahamandir &amp; its works</span>
+      <h2>Spirituality in action, every day</h2>
+      <p class="lede">
+        From the sanctum of silence to free health camps for rural India —
+        the Vihangam Yoga Sansthan extends its care outward in every direction.
+      </p>
+    </header>
+
+    <div class="services-grid">
+      {% for s in services|slice:":6" %}
+      <article class="service-card reveal" style="--i: {{ forloop.counter0 }};">
+        <div class="service-card__image">
+          <img src="{% static s.image %}" alt="{{ s.title }}" loading="lazy" />
+        </div>
+        <div class="service-card__body">
+          <div class="service-card__glyph" aria-hidden="true">
+            {% if s.icon == 'temple' %}🛕{% elif s.icon == 'book' %}📖{% elif s.icon == 'dove' %}🕊️{% elif s.icon == 'lotus' %}🪷{% elif s.icon == 'leaf' %}🌿{% elif s.icon == 'hands' %}🤝{% elif s.icon == 'eye' %}👁️{% elif s.icon == 'fire' %}🔥{% else %}🌟{% endif %}
+          </div>
+          <h3>{{ s.title }}</h3>
+          <p>{{ s.short }}</p>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+
+    <div class="center reveal" style="margin-top:3rem;">
+      <a href="{% url 'core:services' %}" class="btn btn--outline">All Initiatives</a>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== MAKING-OF QUOTE ==================== -->
+<section class="section quote-band" style="background-image: linear-gradient(rgba(28,16,6,0.85), rgba(28,16,6,0.9)), url('{% static "img/mahamandir/official-gallery-1.jpg" %}');">
+  <div class="container quote-band__inner reveal">
+    <span class="quote-mark" aria-hidden="true">“</span>
+    <blockquote>
+      The Swarved Mahamandir is a meditation centre dedicated to the human race —
+      for their moral and spiritual growth.
+    </blockquote>
+    <cite>— Vihangam Yoga Sansthan</cite>
+  </div>
+</section>
+
+<!-- ==================== EVENTS ==================== -->
+<section class="section events-preview">
+  <div class="container">
+    <header class="section-head section-head--split reveal">
+      <div>
+        <span class="kicker">Upcoming</span>
+        <h2>Events &amp; Varshikotsav</h2>
+      </div>
+      <a href="{% url 'core:events' %}" class="link-arrow">All events &nbsp;→</a>
+    </header>
+
+    <div class="events-grid">
+      {% for e in events|slice:":3" %}
+      <article class="event-card reveal" style="--i: {{ forloop.counter0 }};">
+        <div class="event-card__image">
+          <img src="{% static e.image %}" alt="{{ e.title }}" loading="lazy" />
+          <div class="event-card__date">
+            <strong>{{ e.day }}</strong>
+            <span>{{ e.month }}</span>
+          </div>
+        </div>
+        <div class="event-card__body">
+          <h3>{{ e.title }}</h3>
+          <p>{{ e.description|truncatewords:20 }}</p>
+          <div class="event-card__meta">
+            <span>📍 {{ e.location }}</span>
+            <span>⏰ {{ e.time }}</span>
+          </div>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ==================== TESTIMONIALS ==================== -->
+<section class="section section--deep testimonials" style="background-image: linear-gradient(rgba(22,12,4,0.92), rgba(22,12,4,0.95)), url('{% static 'img/mahamandir/temple-night.jpg' %}');">
+  <div class="container">
+    <header class="section-head section-head--light reveal">
+      <span class="kicker">Voices of Seekers</span>
+      <h2>They came. They felt the silence.</h2>
+    </header>
+
+    <div class="testimonial-grid">
+      {% for t in testimonials %}
+      <figure class="testimonial reveal" style="--i: {{ forloop.counter0 }};">
+        <blockquote>{{ t.quote }}</blockquote>
+        <figcaption>
+          <strong>{{ t.author }}</strong>
+          <span>{{ t.role }}</span>
+        </figcaption>
+      </figure>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ==================== DONATE CTA ==================== -->
+<section class="section donate-cta">
+  <div class="container donate-cta__inner reveal">
+    <div>
+      <span class="kicker">Support the Sansthan</span>
+      <h2>Keep the lamp of the Mahamandir burning</h2>
+      <p class="lede">
+        The Mahamandir is a non-profit initiative of the Vihangam Yoga Sansthan.
+        Every contribution — however small — becomes an offering of light.
+      </p>
+    </div>
+    <a href="{% url 'core:donate' %}" class="btn btn--accent btn--lg">Offer Your Contribution</a>
+  </div>
+</section>
+
+{% endblock %}

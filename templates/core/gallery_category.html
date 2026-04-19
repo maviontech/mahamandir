@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ category.title }} — Gallery · {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<section class="page-hero" style="background-image: linear-gradient(rgba(28,16,6,0.65), rgba(28,16,6,0.8)), url('{% static category.cover %}');">
+  <div class="container page-hero__inner">
+    <span class="kicker reveal"><a href="{% url 'core:gallery' %}" style="color:inherit;">Gallery</a> · {{ category.title }}</span>
+    <h1 class="reveal">{{ category.title }}</h1>
+    <p class="lede reveal">{{ category.description }}</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="gallery-grid">
+      {% for img in category.images %}
+      <a class="gallery-tile reveal" style="--i: {{ forloop.counter0 }};" href="{% static img.src %}" data-lightbox="cat" data-caption="{{ img.caption }}">
+        <div class="gallery-tile__img">
+          <img src="{% static img.src %}" alt="{{ img.caption }}" loading="lazy" />
+        </div>
+        <figcaption>{{ img.caption }}</figcaption>
+      </a>
+      {% endfor %}
+    </div>
+
+    <nav class="gallery-nav reveal" style="margin-top:4rem;">
+      <h3>Browse Other Galleries</h3>
+      <div class="gallery-nav__list">
+        {% for cat in categories %}
+          {% if cat.slug != category.slug %}
+          <a href="{% url 'core:gallery_category' cat.slug %}" class="chip">{{ cat.title }}</a>
+          {% endif %}
+        {% endfor %}
+        <a href="{% url 'core:gallery' %}" class="chip chip--outline">All galleries</a>
+      </div>
+    </nav>
+  </div>
+</section>
+
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <button class="lightbox__close" id="lightboxClose" aria-label="Close">×</button>
+  <button class="lightbox__nav lightbox__nav--prev" id="lightboxPrev" aria-label="Previous">‹</button>
+  <button class="lightbox__nav lightbox__nav--next" id="lightboxNext" aria-label="Next">›</button>
+  <div class="lightbox__content">
+    <img class="lightbox__img" id="lightboxImg" src="" alt="" />
+    <p class="lightbox__caption" id="lightboxCaption"></p>
+  </div>
+</div>
+{% endblock %}

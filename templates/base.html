@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="{{ SITE_NAME }} — {{ SITE_TAGLINE }}. Swarved Mahamandir, Varanasi. Meditation, Gurukul, Gau Seva, Social Welfare." />
+  <meta name="theme-color" content="#F5E6C8" />
+  <title>{% block title %}{{ SITE_NAME }} — {{ SITE_TAGLINE }}{% endblock %}</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  {% block extra_head %}{% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %}">
+
+  {# Serene entry veil — fades away gracefully on first load #}
+  <div class="entry-veil" id="entryVeil" aria-hidden="true">
+    <div class="entry-veil__center">
+      <img class="entry-veil__symbol" src="{% static 'img/vihangam-symbol.jpg' %}" alt="Vihangam Yoga" />
+      <div class="entry-veil__text">
+        <span>स्वागतम्</span>
+        <small>Welcome to Swarved Mahamandir Dham</small>
+        <em class="entry-veil__motto">॥ सत्य काम · सत्य संकल्प ॥</em>
+      </div>
+    </div>
+  </div>
+
+  {# Ambient glow that breathes with the page #}
+  <div class="aura" aria-hidden="true">
+    <div class="aura__orb aura__orb--1"></div>
+    <div class="aura__orb aura__orb--2"></div>
+    <div class="aura__orb aura__orb--3"></div>
+  </div>
+
+  {% include 'includes/header.html' %}
+
+  <main class="main">
+    {% block content %}{% endblock %}
+  </main>
+
+  {% include 'includes/footer.html' %}
+
+  <button class="to-top" id="toTop" aria-label="Back to top">
+    <span>↑</span>
+  </button>
+
+  <script src="{% static 'js/main.js' %}" defer></script>
+  {% block extra_scripts %}{% endblock %}
+</body>
+</html>

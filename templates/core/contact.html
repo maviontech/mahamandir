@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Contact — {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<section class="page-hero" style="background-image: linear-gradient(rgba(28,16,6,0.65), rgba(28,16,6,0.8)), url('{% static 'img/mahamandir/official-gate.jpg' %}');">
+  <div class="container page-hero__inner">
+    <span class="kicker reveal">Say Namaste</span>
+    <h1 class="reveal">We would love to hear from you</h1>
+    <p class="lede reveal">
+      For visits, volunteering, satsang, or a word of gratitude — the
+      Pradhan Karyalay of the Vihangam Yoga Sansthan is reached via
+      email, managed by our volunteers.
+    </p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container grid grid--2 grid--center-gap contact-wrap">
+
+    <div class="reveal">
+      <span class="kicker">Reach Us</span>
+      <h2>Visit, call, or write</h2>
+
+      <div class="contact-card">
+        <h3>🕉 Address</h3>
+        <p>{{ CONTACT.address }}</p>
+      </div>
+
+      <div class="contact-card">
+        <h3>📞 Phone</h3>
+        <p><a href="tel:{{ CONTACT.phone }}">{{ CONTACT.phone }}</a></p>
+      </div>
+
+      <div class="contact-card">
+        <h3>✉ Email</h3>
+        <p>
+          <a href="mailto:{{ CONTACT.email }}">{{ CONTACT.email }}</a><br/>
+          <a href="mailto:{{ CONTACT.email_alt }}">{{ CONTACT.email_alt }}</a>
+        </p>
+      </div>
+
+      <div class="contact-card">
+        <h3>🕗 Temple Hours</h3>
+        <p class="small">
+          <strong>Summer:</strong> {{ HOURS.summer }}<br/>
+          <strong>Winter:</strong> {{ HOURS.winter }}<br/>
+          <strong>Morning Darshan:</strong> {{ HOURS.darshan_morning }}<br/>
+          <strong>Evening Darshan:</strong> {{ HOURS.darshan_evening }}
+        </p>
+      </div>
+    </div>
+
+    <div class="reveal">
+      {% if submitted %}
+      <div class="contact-form__thanks">
+        <div class="contact-form__thanks-icon">🙏</div>
+        <h2>Thank you</h2>
+        <p class="lede">Your message has reached us. Our team will respond within 48 hours.</p>
+        <a href="{% url 'core:home' %}" class="btn btn--primary">Back to Home</a>
+      </div>
+      {% else %}
+      <form class="contact-form" method="post">
+        {% csrf_token %}
+        <span class="kicker">Send a Message</span>
+        <h2>Write to us</h2>
+
+        <div class="form-field">
+          <label>Your Name</label>
+          <input type="text" name="name" required placeholder="Full name" />
+        </div>
+        <div class="form-field">
+          <label>Email</label>
+          <input type="email" name="email" required placeholder="your@email.com" />
+        </div>
+        <div class="form-field">
+          <label>Phone</label>
+          <input type="tel" name="phone" placeholder="Optional" />
+        </div>
+        <div class="form-field">
+          <label>Subject</label>
+          <input type="text" name="subject" placeholder="What is this about?" />
+        </div>
+        <div class="form-field">
+          <label>Message</label>
+          <textarea name="message" rows="6" required placeholder="Your message..."></textarea>
+        </div>
+        <button type="submit" class="btn btn--primary btn--lg" style="width:100%;">Send with Reverence</button>
+      </form>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<section class="section section--cream">
+  <div class="container">
+    <header class="section-head reveal center">
+      <span class="kicker">Find Us</span>
+      <h2>On the map</h2>
+    </header>
+    <div class="map-wrap reveal">
+      <iframe
+        src="https://www.openstreetmap.org/export/embed.html?bbox=82.92%2C25.28%2C83.08%2C25.38&amp;layer=mapnik&amp;marker=25.336%2C83.00"
+        loading="lazy"
+        title="Swarved Mahamandir Location Map"
+        referrerpolicy="no-referrer-when-downgrade"
+        allowfullscreen></iframe>
+    </div>
+    <p class="center small muted" style="margin-top:1rem;">
+      <a href="https://www.openstreetmap.org/?mlat=25.336&amp;mlon=83.00#map=12/25.336/83.00" target="_blank" rel="noopener">Open in larger map →</a>
+    </p>
+  </div>
+</section>
+{% endblock %}

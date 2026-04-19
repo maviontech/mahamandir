@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Donate — {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<section class="page-hero page-hero--deep" style="background-image: linear-gradient(rgba(28,16,6,0.7), rgba(28,16,6,0.85)), url('{% static 'img/mahamandir/temple-night.jpg' %}');">
+  <div class="container page-hero__inner">
+    <span class="kicker reveal">Dāna · Offering</span>
+    <h1 class="reveal">Your Offering, a Lamp of Light</h1>
+    <p class="lede reveal">
+      Every rupee you give becomes a meal, a teaching, a medicine,
+      a moment of silence for someone who needed it most.
+    </p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <header class="section-head reveal center">
+      <span class="kicker">Where your dāna goes</span>
+      <h2>Four streams of seva</h2>
+    </header>
+
+    <div class="donate-tiers">
+      <article class="donate-tier reveal" style="--i: 0;">
+        <div class="donate-tier__icon">🍲</div>
+        <h3>Annadaan</h3>
+        <p class="donate-tier__amount">₹ 501</p>
+        <p>Feeds <strong>25 devotees</strong> a warm satvik meal at the Mahamandir Bhandara.</p>
+        <a href="#donateForm" class="btn btn--outline btn--sm">Choose</a>
+      </article>
+      <article class="donate-tier reveal donate-tier--featured" style="--i: 1;">
+        <div class="donate-tier__badge">Most Chosen</div>
+        <div class="donate-tier__icon">🐄</div>
+        <h3>Gau Seva</h3>
+        <p class="donate-tier__amount">₹ 1,100</p>
+        <p>Supports <strong>one month of fodder</strong> for a rescued cow in our Gau Shala.</p>
+        <a href="#donateForm" class="btn btn--accent btn--sm">Choose</a>
+      </article>
+      <article class="donate-tier reveal" style="--i: 2;">
+        <div class="donate-tier__icon">📖</div>
+        <h3>Gurukul Seva</h3>
+        <p class="donate-tier__amount">₹ 2,100</p>
+        <p>Covers <strong>a week of education, food & lodging</strong> for a Gurukul student.</p>
+        <a href="#donateForm" class="btn btn--outline btn--sm">Choose</a>
+      </article>
+      <article class="donate-tier reveal" style="--i: 3;">
+        <div class="donate-tier__icon">🛕</div>
+        <h3>Mandir Seva</h3>
+        <p class="donate-tier__amount">₹ 5,100</p>
+        <p>Contributes to <strong>the upkeep</strong> of the marble sanctum and meditation halls.</p>
+        <a href="#donateForm" class="btn btn--outline btn--sm">Choose</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section section--cream" id="donateForm">
+  <div class="container grid grid--2 grid--center-gap">
+    <div class="reveal">
+      <span class="kicker">Secure Offering</span>
+      <h2>Make a contribution</h2>
+      <p>
+        All donations to the Swarved Mahamandir Trust are eligible for
+        80G tax exemption under the Income Tax Act. A receipt will be
+        issued to the email address you provide.
+      </p>
+      <ul class="donate-benefits">
+        <li>🙏 Your contribution goes directly to seva</li>
+        <li>🧾 80G tax exemption receipt</li>
+        <li>📧 Regular updates on how your dāna is used</li>
+        <li>🔐 Secure, verified payment channels</li>
+      </ul>
+    </div>
+    <form class="donate-form reveal" onsubmit="event.preventDefault(); this.querySelector('.donate-form__thanks').hidden=false; this.reset();">
+      <div class="donate-form__amounts">
+        <label><input type="radio" name="amt" value="501" checked /> <span>₹ 501</span></label>
+        <label><input type="radio" name="amt" value="1100" /> <span>₹ 1,100</span></label>
+        <label><input type="radio" name="amt" value="2100" /> <span>₹ 2,100</span></label>
+        <label><input type="radio" name="amt" value="5100" /> <span>₹ 5,100</span></label>
+        <label><input type="radio" name="amt" value="11000" /> <span>₹ 11,000</span></label>
+        <label class="donate-form__other">
+          <span>Other</span>
+          <input type="number" placeholder="₹ amount" min="1" />
+        </label>
+      </div>
+      <div class="form-field">
+        <label>Name</label>
+        <input type="text" required placeholder="Your full name" />
+      </div>
+      <div class="form-field">
+        <label>Email</label>
+        <input type="email" required placeholder="your@email.com" />
+      </div>
+      <div class="form-field">
+        <label>Phone</label>
+        <input type="tel" placeholder="Optional" />
+      </div>
+      <div class="form-field">
+        <label>PAN (for 80G receipt)</label>
+        <input type="text" placeholder="Optional" />
+      </div>
+      <button type="submit" class="btn btn--primary btn--lg" style="width:100%;">Offer Now</button>
+      <p class="donate-form__thanks" hidden>🙏 Your offering has been received. A receipt will arrive by email.</p>
+      <p class="small muted center" style="margin-top:1rem;">
+        For bank transfer, UPI or international donations, please <a href="{% url 'core:contact' %}">contact us</a>.
+      </p>
+    </form>
+  </div>
+</section>
+
+<section class="section quote-band" style="background-image: linear-gradient(rgba(28,16,6,0.85), rgba(28,16,6,0.9)), url('{% static 'img/mahamandir/temple-night.jpg' %}');">
+  <div class="container quote-band__inner reveal">
+    <span class="quote-mark">“</span>
+    <blockquote>
+      दानं भोगं नाशः तिस्रो गतयो भवन्ति वित्तस्य ।<br/>
+      <em>Of wealth there are three fates — giving, enjoying, or losing. The first alone brings joy.</em>
+    </blockquote>
+    <cite>— Sanskrit Subhashita</cite>
+  </div>
+</section>
+{% endblock %}

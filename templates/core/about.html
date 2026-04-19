@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}The Swarved — Encyclopaedia of Spirituality{% endblock %}
+
+{% block content %}
+
+<section class="page-hero" style="background-image: linear-gradient(rgba(28,16,6,0.7), rgba(28,16,6,0.8)), url('{% static 'img/mahamandir/official-mandir.jpg' %}');">
+  <div class="container page-hero__inner">
+    <span class="kicker reveal">The Swarved</span>
+    <h1 class="reveal">The Encyclopaedia of Spirituality</h1>
+    <p class="lede reveal">
+      The holder of the world’s most eloquent knowledge — the doctrine and
+      practical experiences accompanying the seeker on the Spiritual Path.
+    </p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container grid grid--2 grid--center-gap">
+    <div class="reveal">
+      <span class="kicker">What is Swarved?</span>
+      <h2>Knowledge of the Universal Being</h2>
+      <p>
+        The word <em>Swarved</em> combines two Sanskrit elements:
+        <strong>Swaha</strong> — Brahm, the Universal Energy —
+        and <strong>Ved</strong> — knowledge. Literally, it is the
+        <em>Knowledge of the Universal Being</em>.
+      </p>
+      <p>
+        Composed by Anant Shree Sadguru Sadafal Deo Ji Maharaj in the state
+        of Samadhi — conscious unity with God — at the Shoonya Shikhar Ashram
+        in the Himalayas, the Swarved contains 3,137 verses presenting both
+        the theory and the practical technique of Vihangam Yoga.
+      </p>
+      <p>
+        It is described as having <em>“the pinnacle of knowledge, after
+        which, nothing remains to be known.”</em>
+      </p>
+    </div>
+    <div class="reveal">
+      <div class="frame frame--ornate">
+        <img src="{% static 'img/mahamandir/official-gallery-1.jpg' %}" alt="The Swarved carved in marble" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--amber">
+  <div class="container grid grid--2 grid--center-gap">
+    <div class="reveal order-1-mobile">
+      <div class="frame frame--ornate frame--portrait">
+        <img src="{% static 'img/about/swamiji.jpg' %}" alt="Anant Shree Sadguru Sadafal Deo Ji Maharaj" />
+      </div>
+    </div>
+    <div class="reveal">
+      <span class="kicker">The Founder</span>
+      <h2>Anant Shree Sadguru Sadafal Deo Ji Maharaj</h2>
+      <p>
+        A sage of rarest realization, Sadguru Sadafal Deo Ji Maharaj revived
+        the ancient practice of <em>Vihangam Yoga</em> — the bird-flight path,
+        a direct ascent of consciousness beyond mind and matter.
+      </p>
+      <p>
+        His magnum opus, the <strong>Swarved</strong>, is the spiritual treatise
+        that now adorns, letter by letter, the marble walls of the Swarved
+        Mahamandir — the temple raised in his honour and in the honour of the
+        knowledge he brought to light.
+      </p>
+      <blockquote class="inline-quote">
+        <em>“Swarved is the treasure trove, conscious effulgence of my inner self;
+        incessant divine light of the temple of my heart.”</em>
+        <cite>— Sadguru Sadafal Deo Ji Maharaj, Preface to the Swarved</cite>
+      </blockquote>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <header class="section-head reveal center">
+      <span class="kicker">Vihangam Yoga</span>
+      <h2>The Bird-Flight Path</h2>
+      <div class="vy-divider reveal" aria-hidden="true" style="margin: 1.5rem auto;">
+        <img src="{% static 'img/vihangam-symbol.jpg' %}" alt="" style="width:72px;height:72px;" />
+      </div>
+      <p class="lede">
+        At the heart of Vihangam Yoga lies the sacred syllable
+        <strong>&nbsp;अ&nbsp;</strong> — the first letter, the primal sound, the
+        seed of all creation. It is this radiant <em>akshara</em> that the tradition
+        bears as its emblem — blazing, timeless, truth itself.
+      </p>
+      <p class="lede">
+        The Vihangam Yoga Sansthan has now crossed its first century — the 100th
+        Varshikotsav was celebrated in 2023, attended by the Hon’ble Prime
+        Minister of India at the inauguration of the Mahamandir.
+      </p>
+    </header>
+
+    <div class="grid grid--3 philosophy-grid">
+      <div class="philosophy-card reveal">
+        <div class="philosophy-card__glyph">🕊️</div>
+        <h3>Swift</h3>
+        <p>Like the flight of a bird, it rises directly from the seeker to the Supreme — without detour through the labyrinth of mind.</p>
+      </div>
+      <div class="philosophy-card reveal">
+        <div class="philosophy-card__glyph">🪷</div>
+        <h3>Simple</h3>
+        <p>Accessible to every householder and renunciate alike. The only prerequisite is earnest aspiration — <em>Satya Kām, Satya Sankalp</em>.</p>
+      </div>
+      <div class="philosophy-card reveal">
+        <div class="philosophy-card__glyph">✨</div>
+        <h3>Eternal</h3>
+        <p>Rooted in the Upanishadic vision of <em>Brahm Vidya</em> — as old as the Vedas, as fresh as the breath entering your body this very moment.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--deep stats-band" style="background-image: linear-gradient(rgba(22,12,4,0.92), rgba(22,12,4,0.95)), url('{% static 'img/mahamandir/temple-night.jpg' %}');">
+  <div class="container stats-grid">
+    {% for s in stats %}
+    <div class="stat stat--light reveal">
+      <strong class="stat__number">{{ s.number }}</strong>
+      <span class="stat__label">{{ s.label }}</span>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section quote-band">
+  <div class="container quote-band__inner reveal">
+    <span class="quote-mark">“</span>
+    <blockquote>
+      A state of consummate Zen — the Brahm Vidya of the Swarved spreads
+      a spiritual aura and awakens peaceful alertness in every seeker who enters.
+    </blockquote>
+    <cite>— On the teachings of the Swarved</cite>
+  </div>
+</section>
+
+{% endblock %}
