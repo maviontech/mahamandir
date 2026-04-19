@@ -37,7 +37,12 @@
         <li><a href="{% url 'core:gallery' %}" class="{% if active == 'gallery' %}is-active{% endif %}">Gallery</a></li>
         <li><a href="{% url 'core:events' %}" class="{% if active == 'events' %}is-active{% endif %}">Events</a></li>
         <li><a href="{% url 'core:contact' %}" class="{% if active == 'contact' %}is-active{% endif %}">Contact</a></li>
-        <li><a href="{% url 'core:donate' %}" class="btn btn--accent btn--sm">Donate</a></li>
+        <li><a href="{% url 'core:donate' %}" class="btn-donate" aria-label="Donate to Swarved Mahamandir">
+          <span class="btn-donate__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6.5 5.5 5.5 0 0 1 21.5 12c-2.5 4.5-9.5 9-9.5 9z"/></svg>
+          </span>
+          <span class="btn-donate__text">Donate</span>
+        </a></li>
       </ul>
     </nav>
   </div>
