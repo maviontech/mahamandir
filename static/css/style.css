@@ -289,9 +289,11 @@ p { margin: 0 0 1rem; }
 
 /* ---------- Header Donate button — professional CTA ---------- */
 .btn-donate {
-  display: inline-flex; align-items: center; gap: .45rem;
-  padding: .65rem 1.4rem .65rem 1.1rem;
+  display: inline-flex; align-items: center; gap: .55rem;
+  padding: .75rem 2rem .75rem 1.6rem;
   border-radius: 999px;
+  min-width: 130px;
+  justify-content: center;
   background: linear-gradient(135deg, #F4A355 0%, #E07B2E 45%, #A13314 100%);
   color: #FFFBF2;
   font-family: var(--f-sans);
