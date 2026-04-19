@@ -1,0 +1,58 @@
+{% extends 'admin_panel/base.html' %}
+{% load cms_tags %}
+{% block page_title %}{{ category.title }}{% endblock %}
+{% block page_actions %}
+  <a href="{% url 'core:admin_gallery_list' %}" class="admin-btn">← Categories</a>
+{% endblock %}
+
+{% block content %}
+<div class="admin-two-col">
+  <section class="admin-panel">
+    <h3>Category Details</h3>
+    <form method="post" enctype="multipart/form-data" class="admin-form">
+      {% csrf_token %}
+      <input type="hidden" name="action" value="save_category">
+      {% for field in cat_form %}
+      <div class="admin-field">
+        <label>{{ field.label }}</label>
+        {{ field }}
+      </div>
+      {% endfor %}
+      <button type="submit" class="admin-btn admin-btn--primary">💾 Save Category</button>
+    </form>
+  </section>
+
+  <section class="admin-panel">
+    <h3>Add an Image</h3>
+    <form method="post" enctype="multipart/form-data" class="admin-form">
+      {% csrf_token %}
+      <input type="hidden" name="action" value="add_image">
+      {% for field in img_form %}
+      <div class="admin-field">
+        <label>{{ field.label }}</label>
+        {{ field }}
+        {% if field.help_text %}<small class="muted">{{ field.help_text }}</small>{% endif %}
+      </div>
+      {% endfor %}
+      <button type="submit" class="admin-btn admin-btn--primary">＋ Add Image</button>
+    </form>
+  </section>
+</div>
+
+<h3 style="margin-top:2rem;">Images in this Gallery</h3>
+<p class="muted">Drag to reorder.</p>
+<div class="admin-image-grid admin-sortable" data-reorder-url="{% url 'core:admin_gallery_image_reorder' category.pk %}">
+  {% for img in images %}
+  <div class="admin-image-card" data-id="{{ img.pk }}">
+    <div class="admin-image-card__handle" title="Drag">⋮⋮</div>
+    <img src="{% img_url img %}" alt="" />
+    <div class="admin-image-card__caption">{{ img.caption }}</div>
+    <form method="post" action="{% url 'core:admin_gallery_image_delete' img.pk %}" onsubmit="return confirm('Delete this image?');">
+      {% csrf_token %}<button class="admin-image-card__del" title="Delete">×</button>
+    </form>
+  </div>
+  {% empty %}
+  <p class="muted">No images yet. Add your first one using the form above.</p>
+  {% endfor %}
+</div>
+{% endblock %}

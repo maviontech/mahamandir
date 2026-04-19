@@ -152,11 +152,90 @@
   }
 
   // ------------------------------------------------------------
+  // Shared: reduced-motion preference
+  // ------------------------------------------------------------
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ------------------------------------------------------------
+  // Hero carousel — prev/next arrows, dot indicators,
+  // keyboard arrows, touch swipe, auto-advance with pause on hover.
+  // ------------------------------------------------------------
+  const heroCarousel = document.querySelector('.hero--carousel');
+  if (heroCarousel) {
+    const slides = Array.from(heroCarousel.querySelectorAll('.hero__slide'));
+    const dots   = Array.from(heroCarousel.querySelectorAll('.hero-dot'));
+    const prev   = heroCarousel.querySelector('#heroPrev');
+    const next   = heroCarousel.querySelector('#heroNext');
+    let idx = 0;
+    let timer = null;
+    const AUTOPLAY_MS = 7000;
+
+    const show = (n) => {
+      const len = slides.length;
+      const target = ((n % len) + len) % len;
+      slides.forEach((s, i) => s.classList.toggle('is-active', i === target));
+      dots.forEach((d, i) => {
+        d.classList.toggle('is-active', i === target);
+        d.setAttribute('aria-selected', i === target);
+      });
+      idx = target;
+    };
+
+    const goNext = () => show(idx + 1);
+    const goPrev = () => show(idx - 1);
+
+    if (next) next.addEventListener('click', () => { goNext(); restart(); });
+    if (prev) prev.addEventListener('click', () => { goPrev(); restart(); });
+    dots.forEach((d) => d.addEventListener('click', () => {
+      show(Number(d.dataset.goto));
+      restart();
+    }));
+
+    // Keyboard — only when hero is in viewport
+    document.addEventListener('keydown', (e) => {
+      const rect = heroCarousel.getBoundingClientRect();
+      const inView = rect.bottom > 100 && rect.top < window.innerHeight - 100;
+      if (!inView) return;
+      if (e.key === 'ArrowLeft')  { goPrev(); restart(); }
+      if (e.key === 'ArrowRight') { goNext(); restart(); }
+    });
+
+    // Touch swipe
+    let touchX = null;
+    heroCarousel.addEventListener('touchstart', (e) => {
+      touchX = e.changedTouches[0].clientX;
+    }, { passive: true });
+    heroCarousel.addEventListener('touchend', (e) => {
+      if (touchX == null) return;
+      const dx = e.changedTouches[0].clientX - touchX;
+      if (Math.abs(dx) > 50) { dx < 0 ? goNext() : goPrev(); restart(); }
+      touchX = null;
+    }, { passive: true });
+
+    // Autoplay
+    const start = () => { timer = setInterval(goNext, AUTOPLAY_MS); };
+    const stop  = () => { if (timer) { clearInterval(timer); timer = null; } };
+    const restart = () => { stop(); start(); };
+    if (!prefersReduced) start();
+
+    // Pause on hover / focus
+    heroCarousel.addEventListener('mouseenter', stop);
+    heroCarousel.addEventListener('mouseleave', start);
+    heroCarousel.addEventListener('focusin',    stop);
+    heroCarousel.addEventListener('focusout',   start);
+
+    // Pause when tab hidden
+    document.addEventListener('visibilitychange', () => {
+      document.hidden ? stop() : start();
+    });
+  }
+
+  // ------------------------------------------------------------
   // Subtle parallax on hero (only desktop, reduced-motion respects)
   // ------------------------------------------------------------
   const hero = document.getElementById('hero');
-  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (hero && !prefersReduced && window.matchMedia('(min-width: 900px)').matches) {
+  // Parallax only applies to legacy single-image hero (not carousel)
+  if (hero && !hero.classList.contains('hero--carousel') && !prefersReduced && window.matchMedia('(min-width: 900px)').matches) {
     window.addEventListener('scroll', () => {
       const y = window.scrollY;
       if (y < window.innerHeight) {

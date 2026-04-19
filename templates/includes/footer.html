@@ -65,6 +65,13 @@
     <div class="container site-footer__bottom-inner">
       <p class="small muted">© {% now "Y" %} All Rights Reserved, Vihangam Yoga Sansthan.</p>
       <p class="small muted"><em>॥ सत्य काम · सत्य संकल्प ॥</em></p>
+      <p class="small">
+        {% if request.user.is_authenticated and request.user.is_staff %}
+          <a href="{% url 'core:admin_dashboard' %}" class="footer-admin-link">⚙ Manage Site</a>
+        {% else %}
+          <a href="{% url 'core:admin_login' %}" class="footer-admin-link" aria-label="Staff sign in">🔒 Staff Login</a>
+        {% endif %}
+      </p>
     </div>
   </div>
 </footer>

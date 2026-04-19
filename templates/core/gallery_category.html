@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static cms_tags %}
 {% block title %}{{ category.title }} — Gallery · {{ SITE_NAME }}{% endblock %}
 
 {% block content %}
-<section class="page-hero" style="background-image: linear-gradient(rgba(28,16,6,0.65), rgba(28,16,6,0.8)), url('{% static category.cover %}');">
+<section class="page-hero" style="background-image: linear-gradient(rgba(28,16,6,0.65), rgba(28,16,6,0.8)), url('{% img_url category %}');">
   <div class="container page-hero__inner">
     <span class="kicker reveal"><a href="{% url 'core:gallery' %}" style="color:inherit;">Gallery</a> · {{ category.title }}</span>
     <h1 class="reveal">{{ category.title }}</h1>
@@ -14,10 +14,10 @@
 <section class="section">
   <div class="container">
     <div class="gallery-grid">
-      {% for img in category.images %}
-      <a class="gallery-tile reveal" style="--i: {{ forloop.counter0 }};" href="{% static img.src %}" data-lightbox="cat" data-caption="{{ img.caption }}">
+      {% for img in category.images.all %}
+      <a class="gallery-tile reveal" style="--i: {{ forloop.counter0 }};" href="{% img_url img %}" data-lightbox="cat" data-caption="{{ img.caption }}">
         <div class="gallery-tile__img">
-          <img src="{% static img.src %}" alt="{{ img.caption }}" loading="lazy" />
+          <img src="{% img_url img %}" alt="{{ img.caption }}" loading="lazy" />
         </div>
         <figcaption>{{ img.caption }}</figcaption>
       </a>

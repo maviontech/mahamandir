@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Manage — {{ SITE_NAME }}{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/admin.css' %}">
+</head>
+<body class="admin">
+  <aside class="admin-sidebar">
+    <a href="{% url 'core:admin_dashboard' %}" class="admin-brand">
+      <img src="{% static 'img/vihangam-symbol.jpg' %}" alt="" />
+      <span>
+        <strong>Swarved</strong>
+        <small>Content Panel</small>
+      </span>
+    </a>
+    <nav class="admin-nav">
+      <a href="{% url 'core:admin_dashboard' %}"       class="{% if request.resolver_match.url_name == 'admin_dashboard' %}is-active{% endif %}">🏠 Dashboard</a>
+      <span class="admin-nav__section">Home page</span>
+      <a href="{% url 'core:admin_hero_list' %}"       class="{% if 'hero' in request.resolver_match.url_name %}is-active{% endif %}">🎠 Hero Carousel</a>
+      <a href="{% url 'core:admin_offerings_list' %}"  class="{% if 'offerings' in request.resolver_match.url_name %}is-active{% endif %}">🪷 Offerings</a>
+      <a href="{% url 'core:admin_stats_list' %}"      class="{% if 'stats' in request.resolver_match.url_name %}is-active{% endif %}">📊 Stats</a>
+      <a href="{% url 'core:admin_testimonials_list' %}" class="{% if 'testimonials' in request.resolver_match.url_name %}is-active{% endif %}">💬 Testimonials</a>
+      <span class="admin-nav__section">Pages</span>
+      <a href="{% url 'core:admin_services_list' %}"   class="{% if 'services' in request.resolver_match.url_name %}is-active{% endif %}">🛕 Initiatives</a>
+      <a href="{% url 'core:admin_gallery_list' %}"    class="{% if 'gallery' in request.resolver_match.url_name %}is-active{% endif %}">🖼️ Gallery</a>
+      <a href="{% url 'core:admin_events_list' %}"     class="{% if 'events' in request.resolver_match.url_name %}is-active{% endif %}">📅 Events</a>
+      <span class="admin-nav__section">Site</span>
+      <a href="{% url 'core:admin_site_settings' %}"   class="{% if 'site_settings' in request.resolver_match.url_name %}is-active{% endif %}">⚙️ Site Settings</a>
+      <a href="{% url 'core:admin_messages_list' %}"   class="{% if 'message' in request.resolver_match.url_name %}is-active{% endif %}">✉️ Messages</a>
+    </nav>
+    <div class="admin-sidebar__foot">
+      <a href="{% url 'core:home' %}" target="_blank" class="admin-link">↗ View Site</a>
+      <form method="post" action="{% url 'core:admin_logout' %}">{% csrf_token %}<button class="admin-link admin-link--danger">Sign Out</button></form>
+    </div>
+  </aside>
+
+  <main class="admin-main">
+    <header class="admin-topbar">
+      <h1 class="admin-topbar__title">{% block page_title %}Dashboard{% endblock %}</h1>
+      <div class="admin-topbar__actions">{% block page_actions %}{% endblock %}</div>
+    </header>
+
+    {% if messages %}
+    <div class="admin-flashes">
+      {% for m in messages %}<div class="admin-flash admin-flash--{{ m.tags|default:'info' }}">{{ m }}</div>{% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="admin-content">
+      {% block content %}{% endblock %}
+    </div>
+  </main>
+  <script src="{% static 'js/admin.js' %}" defer></script>
+</body>
+</html>

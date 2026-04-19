@@ -1,19 +1,26 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import Http404
-from .data import (
-    UPCOMING_EVENTS, SERVICES, GALLERY_CATEGORIES,
-    TESTIMONIALS, STATS, OFFERINGS
+from .models import (
+    SiteSetting, HeroSlide, Event, Service, GalleryCategory,
+    Testimonial, Stat, Offering, ContactMessage
 )
-from .models import ContactMessage
+
+
+def _active(qs):
+    try:
+        return qs.filter(is_active=True)
+    except Exception:
+        return qs
 
 
 def home(request):
     context = {
-        'events': UPCOMING_EVENTS[:3],
-        'services': SERVICES,
-        'stats': STATS,
-        'offerings': OFFERINGS,
-        'testimonials': TESTIMONIALS,
+        'slides': HeroSlide.objects.filter(is_active=True),
+        'events': Event.objects.filter(is_active=True)[:3],
+        'services': Service.objects.filter(is_active=True),
+        'stats': Stat.objects.filter(is_active=True),
+        'offerings': Offering.objects.filter(is_active=True),
+        'testimonials': Testimonial.objects.filter(is_active=True),
         'active': 'home',
     }
     return render(request, 'core/home.html', context)
@@ -21,7 +28,7 @@ def home(request):
 
 def about(request):
     return render(request, 'core/about.html', {
-        'stats': STATS,
+        'stats': Stat.objects.filter(is_active=True),
         'active': 'about',
     })
 
@@ -34,32 +41,30 @@ def mahamandir(request):
 
 def services(request):
     return render(request, 'core/services.html', {
-        'services': SERVICES,
+        'services': Service.objects.filter(is_active=True),
         'active': 'services',
     })
 
 
 def gallery(request):
     return render(request, 'core/gallery.html', {
-        'categories': GALLERY_CATEGORIES,
+        'categories': GalleryCategory.objects.filter(is_active=True).prefetch_related('images'),
         'active': 'gallery',
     })
 
 
 def gallery_category(request, category):
-    cat = next((c for c in GALLERY_CATEGORIES if c['slug'] == category), None)
-    if not cat:
-        raise Http404("Gallery category not found")
+    cat = get_object_or_404(GalleryCategory, slug=category, is_active=True)
     return render(request, 'core/gallery_category.html', {
         'category': cat,
-        'categories': GALLERY_CATEGORIES,
+        'categories': GalleryCategory.objects.filter(is_active=True),
         'active': 'gallery',
     })
 
 
 def events(request):
     return render(request, 'core/events.html', {
-        'events': UPCOMING_EVENTS,
+        'events': Event.objects.filter(is_active=True),
         'active': 'events',
     })
 

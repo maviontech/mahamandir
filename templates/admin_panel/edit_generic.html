@@ -1,0 +1,41 @@
+{% extends 'admin_panel/base.html' %}
+{% load cms_tags %}
+{% block page_title %}{% if obj %}Edit{% else %}New{% endif %} {{ label }}{% endblock %}
+{% block page_actions %}
+  <a href="{% url list_url %}" class="admin-btn">← Back to list</a>
+{% endblock %}
+
+{% block content %}
+<form method="post" enctype="multipart/form-data" class="admin-form">
+  {% csrf_token %}
+
+  {% if form.errors %}
+  <div class="admin-flash admin-flash--error">Please correct the errors below.</div>
+  {% endif %}
+
+  {% if obj %}
+  {% with resolved=obj|default:None %}
+    {% if obj.image or obj.image_path %}
+    <div class="admin-current-image">
+      <label>Current image</label>
+      <img src="{% img_url obj %}" alt="" />
+    </div>
+    {% endif %}
+  {% endwith %}
+  {% endif %}
+
+  {% for field in form %}
+  <div class="admin-field {% if field.errors %}has-error{% endif %}">
+    <label for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %} *{% endif %}</label>
+    {{ field }}
+    {% if field.help_text %}<small class="muted">{{ field.help_text }}</small>{% endif %}
+    {% if field.errors %}<small class="admin-err">{{ field.errors|join:", " }}</small>{% endif %}
+  </div>
+  {% endfor %}
+
+  <div class="admin-form__actions">
+    <button type="submit" class="admin-btn admin-btn--primary">💾 Save</button>
+    <a href="{% url list_url %}" class="admin-btn">Cancel</a>
+  </div>
+</form>
+{% endblock %}

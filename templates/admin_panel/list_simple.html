@@ -1,0 +1,45 @@
+{% extends 'admin_panel/base.html' %}
+{% block page_title %}{{ label_plural }}{% endblock %}
+{% block page_actions %}
+  <a href="{% url cfg.edit_url 0 %}{% if False %}{% endif %}" style="display:none"></a>
+  {% if section == 'testimonials' %}
+    <a href="{% url 'core:admin_testimonials_new' %}" class="admin-btn admin-btn--primary">＋ New Testimonial</a>
+  {% elif section == 'stats' %}
+    <a href="{% url 'core:admin_stats_new' %}" class="admin-btn admin-btn--primary">＋ New Stat</a>
+  {% elif section == 'offerings' %}
+    <a href="{% url 'core:admin_offerings_new' %}" class="admin-btn admin-btn--primary">＋ New Offering</a>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+<p class="muted">Drag to reorder.</p>
+<div class="admin-sortable" data-reorder-url="{% url reorder_url %}">
+  {% for o in objects %}
+  <div class="admin-row admin-row--compact" data-id="{{ o.pk }}">
+    <div class="admin-row__handle">⋮⋮</div>
+    <div class="admin-row__body">
+      {% if section == 'testimonials' %}
+        <strong>{{ o.author }}</strong> <span class="tag">{{ o.role }}</span>
+        <p class="muted small">“{{ o.quote|truncatewords:22 }}”</p>
+      {% elif section == 'stats' %}
+        <strong style="font-size:1.4rem;">{{ o.number }}</strong> — {{ o.label }}
+      {% elif section == 'offerings' %}
+        <strong>{{ o.title }}</strong> <span class="tag">{{ o.icon }}</span>
+        <p class="muted small">{{ o.text }}</p>
+      {% endif %}
+    </div>
+    <div class="admin-row__badges">
+      {% if o.is_active %}<span class="badge badge--ok">Active</span>{% else %}<span class="badge">Hidden</span>{% endif %}
+    </div>
+    <div class="admin-row__actions">
+      <a href="{% url edit_url o.pk %}" class="admin-btn admin-btn--sm">Edit</a>
+      <form method="post" action="{% url delete_url o.pk %}" onsubmit="return confirm('Delete?');" style="display:inline">
+        {% csrf_token %}<button class="admin-btn admin-btn--sm admin-btn--danger">Delete</button>
+      </form>
+    </div>
+  </div>
+  {% empty %}
+  <div class="admin-empty">Nothing here yet. Add your first entry.</div>
+  {% endfor %}
+</div>
+{% endblock %}

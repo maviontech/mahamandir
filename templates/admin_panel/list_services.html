@@ -1,0 +1,33 @@
+{% extends 'admin_panel/base.html' %}
+{% load cms_tags %}
+{% block page_title %}{{ label_plural }}{% endblock %}
+{% block page_actions %}
+  <a href="{% url 'core:admin_services_new' %}" class="admin-btn admin-btn--primary">＋ New Initiative</a>
+{% endblock %}
+
+{% block content %}
+<p class="muted">Drag to reorder. Click any initiative to edit image and description.</p>
+<div class="admin-sortable" data-reorder-url="{% url reorder_url %}">
+  {% for o in objects %}
+  <div class="admin-row" data-id="{{ o.pk }}">
+    <div class="admin-row__handle">⋮⋮</div>
+    <div class="admin-row__thumb"><img src="{% img_url o %}" alt="" /></div>
+    <div class="admin-row__body">
+      <strong>{{ o.title }} <span class="tag">/{{ o.slug }}</span></strong>
+      <p class="muted small">{{ o.short_text|truncatewords:20 }}</p>
+    </div>
+    <div class="admin-row__badges">
+      {% if o.is_active %}<span class="badge badge--ok">Active</span>{% else %}<span class="badge">Hidden</span>{% endif %}
+    </div>
+    <div class="admin-row__actions">
+      <a href="{% url edit_url o.pk %}" class="admin-btn admin-btn--sm">Edit</a>
+      <form method="post" action="{% url delete_url o.pk %}" onsubmit="return confirm('Delete this initiative?');" style="display:inline">
+        {% csrf_token %}<button class="admin-btn admin-btn--sm admin-btn--danger">Delete</button>
+      </form>
+    </div>
+  </div>
+  {% empty %}
+  <div class="admin-empty">No initiatives yet. <a href="{% url 'core:admin_services_new' %}">Add one →</a></div>
+  {% endfor %}
+</div>
+{% endblock %}

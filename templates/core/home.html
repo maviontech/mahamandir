@@ -1,51 +1,64 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static cms_tags %}
 
 {% block title %}Swarved Mahamandir — Enlightenment Enshrined{% endblock %}
 {% block body_class %}page-home{% endblock %}
 
 {% block content %}
 
-<!-- ==================== HERO / ENTRY ==================== -->
-<section class="hero" id="hero" style="background-image: linear-gradient(to bottom, rgba(20,10,4,0.45), rgba(40,20,8,0.7)), url('{% static "img/mahamandir/temple-night.jpg" %}');">
-  <div class="hero__backdrop" aria-hidden="true">
-    <div class="hero__mist"></div>
+<!-- ==================== HERO CAROUSEL ==================== -->
+<section class="hero hero--carousel" id="hero" aria-label="Featured images of the Swarved Mahamandir">
+  <div class="hero__slides" id="heroSlides">
+    {% for s in slides %}
+    <article class="hero__slide {% if forloop.first %}is-active{% endif %}" data-slide="{{ forloop.counter0 }}"
+             style="background-image: linear-gradient(to bottom, rgba(20,10,4,0.45), rgba(40,20,8,0.7)), url('{% img_url s %}');">
+      <div class="hero__inner container">
+        <p class="hero__eyebrow">
+          <span class="hero__eyebrow-line"></span>
+          <span>{{ s.eyebrow }}</span>
+          <span class="hero__eyebrow-line"></span>
+        </p>
+        <h1 class="hero__title">
+          {% if s.title_sanskrit %}<span class="hero__title-sanskrit">{{ s.title_sanskrit }}</span>{% endif %}
+          <span class="hero__title-english">{{ s.title_english }}</span>
+        </h1>
+        <p class="hero__sub">{{ s.subtitle|safe }}</p>
+        <div class="hero__cta">
+          {% if s.cta_primary_label %}<a href="{{ s.cta_primary_url }}" class="btn btn--primary">{{ s.cta_primary_label }}</a>{% endif %}
+          {% if s.cta_secondary_label %}<a href="{{ s.cta_secondary_url }}" class="btn btn--ghost">{{ s.cta_secondary_label }}</a>{% endif %}
+        </div>
+      </div>
+    </article>
+    {% endfor %}
   </div>
 
-  <div class="hero__inner container">
-    <p class="hero__eyebrow reveal">
-      <span class="hero__eyebrow-line"></span>
-      <span>Varanasi · Umraha · Inaugurated 2023</span>
-      <span class="hero__eyebrow-line"></span>
-    </p>
-
-    <h1 class="hero__title reveal">
-      <span class="hero__title-sanskrit">स्वर्वेद&nbsp;महामन्दिर</span>
-      <span class="hero__title-english">Swarved Mahamandir</span>
-    </h1>
-
-    <p class="hero__sub reveal">
-      <em>Enlightenment Enshrined</em> — The world’s largest meditation centre,
-      a sanctuary where 3,137 verses of the Swarved are carved into marble and
-      twenty thousand seekers may sit as one in silence.
-    </p>
-
-    <div class="hero__cta reveal">
-      <a href="{% url 'core:mahamandir' %}" class="btn btn--primary">Enter the Mahamandir</a>
-      <a href="{% url 'core:about' %}" class="btn btn--ghost">The Swarved</a>
-    </div>
-
-    <div class="hero__scroll reveal">
-      <span></span>
-      <small>scroll in stillness</small>
-    </div>
-  </div>
-
+  <div class="hero__backdrop" aria-hidden="true"><div class="hero__mist"></div></div>
   <div class="hero__lamps" aria-hidden="true">
     <div class="lamp lamp--1">🪔</div>
     <div class="lamp lamp--2">🪔</div>
     <div class="lamp lamp--3">🪔</div>
   </div>
+
+  {% if slides|length > 1 %}
+  <button class="hero-arrow hero-arrow--prev" id="heroPrev" aria-label="Previous slide">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <polyline points="15 18 9 12 15 6"></polyline>
+    </svg>
+  </button>
+  <button class="hero-arrow hero-arrow--next" id="heroNext" aria-label="Next slide">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </button>
+  <div class="hero-dots" id="heroDots" role="tablist" aria-label="Choose slide">
+    {% for s in slides %}
+    <button class="hero-dot {% if forloop.first %}is-active{% endif %}" data-goto="{{ forloop.counter0 }}" role="tab"
+            aria-selected="{% if forloop.first %}true{% else %}false{% endif %}" aria-label="Slide {{ forloop.counter }}"></button>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <div class="hero__scroll"><span></span><small>scroll in stillness</small></div>
 </section>
 
 <!-- ==================== INVOCATION ==================== -->
@@ -78,21 +91,11 @@
         <small>Swarved verses<br/>on Makrana marble</small>
       </div>
     </div>
-
     <div class="about-intro__copy reveal">
       <span class="kicker">The Temple of Spirituality</span>
       <h2>Modern Architecture with Spiritual Roots</h2>
-      <p>
-        The Swarved Mahamandir is a meditation centre dedicated to the human race
-        — for their moral and spiritual growth. Spanning over 300,000 square feet
-        and crowned by a 125-petal lotus dome, it rises above the fields of Umraha,
-        on the outskirts of the holy city of Varanasi.
-      </p>
-      <p>
-        It is an amalgamation of ancient philosophy, spirituality and modern
-        architecture — a gathering space for truth-seekers to encounter
-        consciousness beyond physical science.
-      </p>
+      <p>The Swarved Mahamandir is a meditation centre dedicated to the human race — for their moral and spiritual growth. Spanning over 300,000 square feet and crowned by a 125-petal lotus dome, it rises above the fields of Umraha, on the outskirts of the holy city of Varanasi.</p>
+      <p>It is an amalgamation of ancient philosophy, spirituality and modern architecture — a gathering space for truth-seekers to encounter consciousness beyond physical science.</p>
       <a href="{% url 'core:about' %}" class="link-arrow">Read about the Swarved &nbsp;→</a>
     </div>
   </div>
@@ -116,11 +119,8 @@
     <header class="section-head reveal">
       <span class="kicker">What the Mahamandir offers</span>
       <h2>Paths to the Inner Light</h2>
-      <p class="lede">
-        Four simple invitations — each a doorway into the same stillness.
-      </p>
+      <p class="lede">Four simple invitations — each a doorway into the same stillness.</p>
     </header>
-
     <div class="offerings__grid">
       {% for o in offerings %}
       <article class="offering-card reveal" style="--i: {{ forloop.counter0 }};">
@@ -141,43 +141,33 @@
     <header class="section-head reveal">
       <span class="kicker">The Mahamandir &amp; its works</span>
       <h2>Spirituality in action, every day</h2>
-      <p class="lede">
-        From the sanctum of silence to free health camps for rural India —
-        the Vihangam Yoga Sansthan extends its care outward in every direction.
-      </p>
+      <p class="lede">From the sanctum of silence to free health camps for rural India — the Vihangam Yoga Sansthan extends its care outward in every direction.</p>
     </header>
-
     <div class="services-grid">
       {% for s in services|slice:":6" %}
       <article class="service-card reveal" style="--i: {{ forloop.counter0 }};">
-        <div class="service-card__image">
-          <img src="{% static s.image %}" alt="{{ s.title }}" loading="lazy" />
-        </div>
+        <div class="service-card__image"><img src="{% img_url s %}" alt="{{ s.title }}" loading="lazy" /></div>
         <div class="service-card__body">
           <div class="service-card__glyph" aria-hidden="true">
             {% if s.icon == 'temple' %}🛕{% elif s.icon == 'book' %}📖{% elif s.icon == 'dove' %}🕊️{% elif s.icon == 'lotus' %}🪷{% elif s.icon == 'leaf' %}🌿{% elif s.icon == 'hands' %}🤝{% elif s.icon == 'eye' %}👁️{% elif s.icon == 'fire' %}🔥{% else %}🌟{% endif %}
           </div>
           <h3>{{ s.title }}</h3>
-          <p>{{ s.short }}</p>
+          <p>{{ s.short_text }}</p>
         </div>
       </article>
       {% endfor %}
     </div>
-
     <div class="center reveal" style="margin-top:3rem;">
       <a href="{% url 'core:services' %}" class="btn btn--outline">All Initiatives</a>
     </div>
   </div>
 </section>
 
-<!-- ==================== MAKING-OF QUOTE ==================== -->
+<!-- ==================== QUOTE ==================== -->
 <section class="section quote-band" style="background-image: linear-gradient(rgba(28,16,6,0.85), rgba(28,16,6,0.9)), url('{% static "img/mahamandir/official-gallery-1.jpg" %}');">
   <div class="container quote-band__inner reveal">
     <span class="quote-mark" aria-hidden="true">“</span>
-    <blockquote>
-      The Swarved Mahamandir is a meditation centre dedicated to the human race —
-      for their moral and spiritual growth.
-    </blockquote>
+    <blockquote>The Swarved Mahamandir is a meditation centre dedicated to the human race — for their moral and spiritual growth.</blockquote>
     <cite>— Vihangam Yoga Sansthan</cite>
   </div>
 </section>
@@ -192,12 +182,11 @@
       </div>
       <a href="{% url 'core:events' %}" class="link-arrow">All events &nbsp;→</a>
     </header>
-
     <div class="events-grid">
-      {% for e in events|slice:":3" %}
+      {% for e in events %}
       <article class="event-card reveal" style="--i: {{ forloop.counter0 }};">
         <div class="event-card__image">
-          <img src="{% static e.image %}" alt="{{ e.title }}" loading="lazy" />
+          <img src="{% img_url e %}" alt="{{ e.title }}" loading="lazy" />
           <div class="event-card__date">
             <strong>{{ e.day }}</strong>
             <span>{{ e.month }}</span>
@@ -208,7 +197,7 @@
           <p>{{ e.description|truncatewords:20 }}</p>
           <div class="event-card__meta">
             <span>📍 {{ e.location }}</span>
-            <span>⏰ {{ e.time }}</span>
+            <span>⏰ {{ e.time_label }}</span>
           </div>
         </div>
       </article>
@@ -224,7 +213,6 @@
       <span class="kicker">Voices of Seekers</span>
       <h2>They came. They felt the silence.</h2>
     </header>
-
     <div class="testimonial-grid">
       {% for t in testimonials %}
       <figure class="testimonial reveal" style="--i: {{ forloop.counter0 }};">
@@ -245,10 +233,7 @@
     <div>
       <span class="kicker">Support the Sansthan</span>
       <h2>Keep the lamp of the Mahamandir burning</h2>
-      <p class="lede">
-        The Mahamandir is a non-profit initiative of the Vihangam Yoga Sansthan.
-        Every contribution — however small — becomes an offering of light.
-      </p>
+      <p class="lede">The Mahamandir is a non-profit initiative of the Vihangam Yoga Sansthan. Every contribution — however small — becomes an offering of light.</p>
     </div>
     <a href="{% url 'core:donate' %}" class="btn btn--accent btn--lg">Offer Your Contribution</a>
   </div>

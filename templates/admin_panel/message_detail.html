@@ -1,0 +1,21 @@
+{% extends 'admin_panel/base.html' %}
+{% block page_title %}Message from {{ msg.name }}{% endblock %}
+{% block page_actions %}
+  <a href="{% url 'core:admin_messages_list' %}" class="admin-btn">← Inbox</a>
+  <form method="post" action="{% url 'core:admin_message_delete' msg.pk %}" onsubmit="return confirm('Delete this message permanently?');" style="display:inline;">
+    {% csrf_token %}<button class="admin-btn admin-btn--danger">Delete</button>
+  </form>
+{% endblock %}
+
+{% block content %}
+<div class="admin-panel" style="max-width:760px;">
+  <dl class="admin-dl">
+    <dt>From</dt><dd><strong>{{ msg.name }}</strong> &lt;<a href="mailto:{{ msg.email }}">{{ msg.email }}</a>&gt;</dd>
+    {% if msg.phone %}<dt>Phone</dt><dd>{{ msg.phone }}</dd>{% endif %}
+    <dt>Subject</dt><dd>{{ msg.subject|default:"(no subject)" }}</dd>
+    <dt>Received</dt><dd>{{ msg.created_at|date:"l, F j, Y · g:i A" }}</dd>
+  </dl>
+  <hr/>
+  <div class="admin-message-body">{{ msg.message|linebreaks }}</div>
+</div>
+{% endblock %}

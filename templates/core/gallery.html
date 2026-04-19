@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static cms_tags %}
 {% block title %}Gallery — {{ SITE_NAME }}{% endblock %}
 
 {% block content %}
@@ -8,8 +8,8 @@
     <span class="kicker reveal">Gallery</span>
     <h1 class="reveal">Moments of Stillness</h1>
     <p class="lede reveal">
-      A glimpse into the life of the Dham — its temple, its children, its
-      cows, and its thousands of seekers in quiet service.
+      A glimpse into the life of the Dham — its temple, its seekers, its
+      silent scripture carved in marble.
     </p>
   </div>
 </section>
@@ -20,9 +20,9 @@
       {% for cat in categories %}
       <a href="{% url 'core:gallery_category' cat.slug %}" class="gallery-cat reveal" style="--i: {{ forloop.counter0 }};">
         <div class="gallery-cat__img">
-          <img src="{% static cat.cover %}" alt="{{ cat.title }}" loading="lazy" />
+          <img src="{% img_url cat %}" alt="{{ cat.title }}" loading="lazy" />
           <div class="gallery-cat__overlay">
-            <span class="chip chip--light">{{ cat.images|length }} photos</span>
+            <span class="chip chip--light">{{ cat.images.count }} photos</span>
           </div>
         </div>
         <div class="gallery-cat__body">

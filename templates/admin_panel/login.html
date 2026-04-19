@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign in — {{ SITE_NAME }} Panel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Cormorant+Garamond:ital,wght@0,400;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/admin.css' %}">
+</head>
+<body class="admin-login-body">
+  <div class="admin-login-aura" aria-hidden="true">
+    <div class="orb orb--1"></div>
+    <div class="orb orb--2"></div>
+  </div>
+
+  <div class="admin-login-card">
+    <div class="admin-login-card__head">
+      <img src="{% static 'img/vihangam-symbol.jpg' %}" alt="" />
+      <h1>Swarved Mahamandir</h1>
+      <p class="muted">Content Management Panel</p>
+    </div>
+
+    <form method="post" class="admin-login-form" novalidate>
+      {% csrf_token %}
+      {% if error %}<div class="admin-flash admin-flash--error">{{ error }}</div>{% endif %}
+
+      <label>Username</label>
+      {{ form.username }}
+      <label>Password</label>
+      {{ form.password }}
+
+      <button type="submit" class="admin-btn admin-btn--primary">Sign In</button>
+
+      <a href="{% url 'core:home' %}" class="admin-login-card__back">← Back to site</a>
+    </form>
+  </div>
+</body>
+</html>

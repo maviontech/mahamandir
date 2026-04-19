@@ -1,0 +1,30 @@
+{% extends 'admin_panel/base.html' %}
+{% block page_title %}Dashboard{% endblock %}
+{% block content %}
+
+{% if unread_messages %}
+<div class="admin-callout">
+  <strong>✉️ {{ unread_messages }} unread message{{ unread_messages|pluralize }}</strong> in your inbox.
+  <a href="{% url 'core:admin_messages_list' %}" class="admin-link">Review →</a>
+</div>
+{% endif %}
+
+<div class="admin-welcome">
+  <h2>Welcome, <em>{{ request.user.get_full_name|default:request.user.username }}</em> 🙏</h2>
+  <p class="muted">Every section of the public site is editable here — images, text, order, visibility.</p>
+</div>
+
+<div class="admin-cards">
+  {% for s in stats %}
+  <a href="{% url s.url %}" class="admin-card">
+    <div class="admin-card__icon">{{ s.icon }}</div>
+    <div class="admin-card__body">
+      <strong class="admin-card__count">{{ s.count }}</strong>
+      <span class="admin-card__label">{{ s.label }}</span>
+    </div>
+    <span class="admin-card__arrow">→</span>
+  </a>
+  {% endfor %}
+</div>
+
+{% endblock %}

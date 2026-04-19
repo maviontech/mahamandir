@@ -1,0 +1,34 @@
+{% extends 'admin_panel/base.html' %}
+{% load cms_tags %}
+{% block page_title %}Gallery Categories{% endblock %}
+{% block page_actions %}
+  <a href="{% url 'core:admin_gallery_new' %}" class="admin-btn admin-btn--primary">＋ New Category</a>
+{% endblock %}
+
+{% block content %}
+<p class="muted">Drag to reorder categories. Click any category to manage its images.</p>
+<div class="admin-sortable" data-reorder-url="{% url 'core:admin_gallery_reorder' %}">
+  {% for cat in categories %}
+  <div class="admin-row" data-id="{{ cat.pk }}">
+    <div class="admin-row__handle">⋮⋮</div>
+    <div class="admin-row__thumb"><img src="{% img_url cat %}" alt="" /></div>
+    <div class="admin-row__body">
+      <strong>{{ cat.title }} <span class="tag">/{{ cat.slug }}</span></strong>
+      <p class="muted small">{{ cat.description|truncatewords:22 }}</p>
+      <p class="muted small">🖼️ {{ cat.images.count }} image{{ cat.images.count|pluralize }}</p>
+    </div>
+    <div class="admin-row__badges">
+      {% if cat.is_active %}<span class="badge badge--ok">Active</span>{% else %}<span class="badge">Hidden</span>{% endif %}
+    </div>
+    <div class="admin-row__actions">
+      <a href="{% url 'core:admin_gallery_detail' cat.pk %}" class="admin-btn admin-btn--sm admin-btn--primary">Manage</a>
+      <form method="post" action="{% url 'core:admin_gallery_delete' cat.pk %}" onsubmit="return confirm('Delete this category and all its images?');" style="display:inline">
+        {% csrf_token %}<button class="admin-btn admin-btn--sm admin-btn--danger">Delete</button>
+      </form>
+    </div>
+  </div>
+  {% empty %}
+  <div class="admin-empty">No gallery categories. <a href="{% url 'core:admin_gallery_new' %}">Add one →</a></div>
+  {% endfor %}
+</div>
+{% endblock %}

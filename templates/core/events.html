@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
-{% load static %}
-{% block title %}Events &amp; Festivals — {{ SITE_NAME }}{% endblock %}
+{% load static cms_tags %}
+{% block title %}Events &amp; Varshikotsav — {{ SITE_NAME }}{% endblock %}
 
 {% block content %}
 <section class="page-hero" style="background-image: linear-gradient(rgba(28,16,6,0.7), rgba(28,16,6,0.8)), url('{% static 'img/mahamandir/official-mandir.jpg' %}');">
@@ -21,12 +21,11 @@
       <article class="event-row reveal {% if forloop.counter|divisibleby:2 %}event-row--flip{% endif %}" style="--i: {{ forloop.counter0 }};">
         <div class="event-row__media">
           <div class="frame frame--ornate">
-            <img src="{% static e.image %}" alt="{{ e.title }}" loading="lazy" />
+            <img src="{% img_url e %}" alt="{{ e.title }}" loading="lazy" />
           </div>
           <div class="event-row__date">
             <strong>{{ e.day }}</strong>
             <span>{{ e.month }}</span>
-            <small>2026</small>
           </div>
         </div>
         <div class="event-row__body">
@@ -34,8 +33,8 @@
           <p class="lede">{{ e.description }}</p>
           <div class="event-row__meta">
             <span>📍 {{ e.location }}</span>
-            <span>⏰ {{ e.time }}</span>
-            <span>🗓 {{ e.date }}</span>
+            <span>⏰ {{ e.time_label }}</span>
+            <span>🗓 {{ e.date_label }}</span>
           </div>
           <a href="{% url 'core:contact' %}?event={{ e.title|urlencode }}" class="link-arrow">Register interest &nbsp;→</a>
         </div>

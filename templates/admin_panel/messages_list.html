@@ -1,0 +1,19 @@
+{% extends 'admin_panel/base.html' %}
+{% block page_title %}Contact Messages{% endblock %}
+{% block content %}
+<div class="admin-table">
+  <div class="admin-table__head">
+    <div>Name</div><div>Subject</div><div>Received</div><div></div>
+  </div>
+  {% for m in messages_list %}
+  <a href="{% url 'core:admin_message_detail' m.pk %}" class="admin-table__row {% if not m.is_read %}is-unread{% endif %}">
+    <div><strong>{{ m.name }}</strong><br/><small class="muted">{{ m.email }}</small></div>
+    <div>{{ m.subject|default:"(no subject)" }}<br/><small class="muted">{{ m.message|truncatewords:12 }}</small></div>
+    <div class="muted small">{{ m.created_at|date:"M j, Y · H:i" }}</div>
+    <div>{% if not m.is_read %}<span class="badge badge--ok">New</span>{% endif %}</div>
+  </a>
+  {% empty %}
+  <div class="admin-empty">No messages yet.</div>
+  {% endfor %}
+</div>
+{% endblock %}

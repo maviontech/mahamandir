@@ -1,0 +1,20 @@
+{% extends 'admin_panel/base.html' %}
+{% block page_title %}Site Settings{% endblock %}
+{% block content %}
+<p class="muted">Changes here update every page — tagline, contact details, hours, and social links.</p>
+
+<form method="post" class="admin-form">
+  {% csrf_token %}
+  {% for field in form %}
+  <div class="admin-field {% if field.errors %}has-error{% endif %}">
+    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+    {{ field }}
+    {% if field.help_text %}<small class="muted">{{ field.help_text }}</small>{% endif %}
+    {% if field.errors %}<small class="admin-err">{{ field.errors|join:", " }}</small>{% endif %}
+  </div>
+  {% endfor %}
+  <div class="admin-form__actions">
+    <button type="submit" class="admin-btn admin-btn--primary">💾 Save Settings</button>
+  </div>
+</form>
+{% endblock %}

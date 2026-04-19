@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
-{% load static %}
-{% block title %}Services &amp; Seva — {{ SITE_NAME }}{% endblock %}
+{% load static cms_tags %}
+{% block title %}Initiatives — {{ SITE_NAME }}{% endblock %}
 
 {% block content %}
 <section class="page-hero" style="background-image: linear-gradient(rgba(28,16,6,0.7), rgba(28,16,6,0.8)), url('{% static 'img/mahamandir/official-mandir.jpg' %}');">
@@ -22,7 +22,7 @@
       <article class="service-long reveal {% if forloop.counter|divisibleby:2 %}service-long--flip{% endif %}" style="--i: {{ forloop.counter0 }};" id="{{ s.slug }}">
         <div class="service-long__media">
           <div class="frame frame--ornate">
-            <img src="{% static s.image %}" alt="{{ s.title }}" loading="lazy" />
+            <img src="{% img_url s %}" alt="{{ s.title }}" loading="lazy" />
           </div>
         </div>
         <div class="service-long__body">
@@ -31,9 +31,9 @@
           </div>
           <span class="kicker">0{{ forloop.counter }} · Initiative</span>
           <h2>{{ s.title }}</h2>
-          <p class="lede">{{ s.short }}</p>
-          <p>{{ s.long }}</p>
-          <a href="{% url 'core:donate' %}" class="link-arrow">Support this seva &nbsp;→</a>
+          <p class="lede">{{ s.short_text }}</p>
+          <p>{{ s.long_text }}</p>
+          <a href="{% url 'core:donate' %}" class="link-arrow">Support this initiative &nbsp;→</a>
         </div>
       </article>
       {% endfor %}
