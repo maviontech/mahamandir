@@ -32,7 +32,10 @@
       <label>Password</label>
       {{ form.password }}
 
-      <button type="submit" class="admin-btn admin-btn--primary">Sign In</button>
+      <div class="admin-login-form__actions">
+        <button type="reset" class="admin-btn admin-btn--ghost">Reset</button>
+        <button type="submit" class="admin-btn admin-btn--primary">Sign In</button>
+      </div>
 
       <a href="{% url 'core:home' %}" class="admin-login-card__back">← Back to site</a>
     </form>
