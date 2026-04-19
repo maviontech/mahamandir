@@ -3,14 +3,12 @@
 {% block title %}Events &amp; Varshikotsav — {{ SITE_NAME }}{% endblock %}
 
 {% block content %}
+{% content_block 'events.hero' as eh %}
 <section class="page-hero" style="background-image: linear-gradient(rgba(28,16,6,0.7), rgba(28,16,6,0.8)), url('{% static 'img/mahamandir/official-mandir.jpg' %}');">
   <div class="container page-hero__inner">
-    <span class="kicker reveal">Calendar</span>
-    <h1 class="reveal">Varshikotsav &amp; Celebrations</h1>
-    <p class="lede reveal">
-      The year of the Vihangam Yoga Sansthan unfolds as a garland of sacred
-      days — of remembrance, celebration, and collective practice. Join us.
-    </p>
+    <span class="kicker reveal">{{ eh.kicker }}</span>
+    <h1 class="reveal">{{ eh.title }}</h1>
+    <p class="lede reveal">{{ eh.subtitle }}</p>
   </div>
 </section>
 
@@ -44,13 +42,14 @@
   </div>
 </section>
 
+{% content_block 'events.cta' as ec %}
 <section class="section section--amber donate-cta">
   <div class="container donate-cta__inner reveal">
     <div>
-      <h2>Cannot make it in person?</h2>
-      <p class="lede">Follow the live satsang and contribute to the seva from wherever you are.</p>
+      <h2>{{ ec.title }}</h2>
+      <p class="lede">{{ ec.subtitle }}</p>
     </div>
-    <a href="{% url 'core:donate' %}" class="btn btn--primary btn--lg">Support an Event</a>
+    <a href="{{ ec.cta_url|default:'/donate/' }}" class="btn btn--primary btn--lg">{{ ec.cta_label|default:'Support an Event' }}</a>
   </div>
 </section>
 {% endblock %}

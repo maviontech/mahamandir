@@ -1,8 +1,29 @@
 from django import forms
 from .models import (
     SiteSetting, HeroSlide, Event, Service, GalleryCategory, GalleryImage,
-    Testimonial, Stat, Offering
+    Testimonial, Stat, Offering, PageBlock, PUBLISHABLE_FIELDS,
 )
+
+
+class PageBlockForm(forms.ModelForm):
+    """Form exposes only the editable text fields; writes go to draft, not live."""
+    class Meta:
+        model = PageBlock
+        fields = ['kicker', 'title', 'subtitle', 'body', 'image_path',
+                  'cta_label', 'cta_url', 'quote', 'quote_cite']
+        widgets = {
+            'subtitle': forms.Textarea(attrs={'rows': 3}),
+            'body': forms.Textarea(attrs={'rows': 8}),
+            'quote': forms.Textarea(attrs={'rows': 3}),
+        }
+
+    def __init__(self, *args, instance=None, **kwargs):
+        """On load, populate initial values from DRAFT if present, else LIVE."""
+        super().__init__(*args, instance=instance, **kwargs)
+        if instance and instance.has_draft:
+            for f in PUBLISHABLE_FIELDS:
+                if f in self.fields:
+                    self.initial[f] = instance.draft_value(f)
 
 
 class AdminLoginForm(forms.Form):

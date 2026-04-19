@@ -3,15 +3,12 @@
 {% block title %}Initiatives — {{ SITE_NAME }}{% endblock %}
 
 {% block content %}
+{% content_block 'services.hero' as sh %}
 <section class="page-hero" style="background-image: linear-gradient(rgba(28,16,6,0.7), rgba(28,16,6,0.8)), url('{% static 'img/mahamandir/official-mandir.jpg' %}');">
   <div class="container page-hero__inner">
-    <span class="kicker reveal">Initiatives &amp; Teachings</span>
-    <h1 class="reveal">The Mahamandir &amp; its works</h1>
-    <p class="lede reveal">
-      From the marble sanctum to medicinal gardens, from the annual
-      Varshikotsav to welfare programs for rural India — the teachings of
-      the Swarved unfold in silence and in service.
-    </p>
+    <span class="kicker reveal">{{ sh.kicker }}</span>
+    <h1 class="reveal">{{ sh.title }}</h1>
+    <p class="lede reveal">{{ sh.subtitle }}</p>
   </div>
 </section>
 
@@ -41,13 +38,14 @@
   </div>
 </section>
 
+{% content_block 'services.cta' as sc %}
 <section class="section section--amber donate-cta">
   <div class="container donate-cta__inner reveal">
     <div>
-      <h2>Support the Sansthan</h2>
-      <p class="lede">Every contribution becomes a lamp of light — free meditation, free teaching, free welfare for all.</p>
+      <h2>{{ sc.title }}</h2>
+      <p class="lede">{{ sc.subtitle }}</p>
     </div>
-    <a href="{% url 'core:donate' %}" class="btn btn--primary btn--lg">Contribute Now</a>
+    <a href="{{ sc.cta_url|default:'/donate/' }}" class="btn btn--primary btn--lg">{{ sc.cta_label|default:'Contribute Now' }}</a>
   </div>
 </section>
 {% endblock %}

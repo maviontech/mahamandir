@@ -3,14 +3,12 @@
 {% block title %}Gallery — {{ SITE_NAME }}{% endblock %}
 
 {% block content %}
+{% content_block 'gallery.hero' as gh %}
 <section class="page-hero" style="background-image: linear-gradient(rgba(28,16,6,0.65), rgba(28,16,6,0.8)), url('{% static 'img/mahamandir/temple-night.jpg' %}');">
   <div class="container page-hero__inner">
-    <span class="kicker reveal">Gallery</span>
-    <h1 class="reveal">Moments of Stillness</h1>
-    <p class="lede reveal">
-      A glimpse into the life of the Dham — its temple, its seekers, its
-      silent scripture carved in marble.
-    </p>
+    <span class="kicker reveal">{{ gh.kicker }}</span>
+    <h1 class="reveal">{{ gh.title }}</h1>
+    <p class="lede reveal">{{ gh.subtitle }}</p>
   </div>
 </section>
 
@@ -38,9 +36,10 @@
 
 <section class="section section--cream">
   <div class="container">
+    {% content_block 'gallery.featured_header' as fh %}
     <header class="section-head reveal center">
-      <span class="kicker">Featured Moments</span>
-      <h2>From the Mahamandir archive</h2>
+      <span class="kicker">{{ fh.kicker }}</span>
+      <h2>{{ fh.title }}</h2>
     </header>
     <div class="mosaic">
       <a class="mosaic__tile mosaic__tile--wide reveal" href="{% static 'img/mahamandir/temple-night.jpg' %}" data-lightbox="featured" data-caption="The Mahamandir illuminated at night">

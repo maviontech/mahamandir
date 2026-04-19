@@ -27,6 +27,7 @@
       <a href="{% url 'core:admin_stats_list' %}"      class="{% if 'stats' in request.resolver_match.url_name %}is-active{% endif %}">📊 Stats</a>
       <a href="{% url 'core:admin_testimonials_list' %}" class="{% if 'testimonials' in request.resolver_match.url_name %}is-active{% endif %}">💬 Testimonials</a>
       <span class="admin-nav__section">Pages</span>
+      <a href="{% url 'core:admin_blocks_list' %}"     class="{% if 'blocks' in request.resolver_match.url_name %}is-active{% endif %}">📝 Page Content</a>
       <a href="{% url 'core:admin_services_list' %}"   class="{% if 'services' in request.resolver_match.url_name %}is-active{% endif %}">🛕 Initiatives</a>
       <a href="{% url 'core:admin_gallery_list' %}"    class="{% if 'gallery' in request.resolver_match.url_name %}is-active{% endif %}">🖼️ Gallery</a>
       <a href="{% url 'core:admin_events_list' %}"     class="{% if 'events' in request.resolver_match.url_name %}is-active{% endif %}">📅 Events</a>

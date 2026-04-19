@@ -3,24 +3,23 @@
 {% block title %}Contact — {{ SITE_NAME }}{% endblock %}
 
 {% block content %}
+{% load cms_tags %}
+{% content_block 'contact.hero' as ch %}
 <section class="page-hero" style="background-image: linear-gradient(rgba(28,16,6,0.65), rgba(28,16,6,0.8)), url('{% static 'img/mahamandir/official-gate.jpg' %}');">
   <div class="container page-hero__inner">
-    <span class="kicker reveal">Say Namaste</span>
-    <h1 class="reveal">We would love to hear from you</h1>
-    <p class="lede reveal">
-      For visits, volunteering, satsang, or a word of gratitude — the
-      Pradhan Karyalay of the Vihangam Yoga Sansthan is reached via
-      email, managed by our volunteers.
-    </p>
+    <span class="kicker reveal">{{ ch.kicker }}</span>
+    <h1 class="reveal">{{ ch.title }}</h1>
+    <p class="lede reveal">{{ ch.subtitle }}</p>
   </div>
 </section>
 
 <section class="section">
   <div class="container grid grid--2 grid--center-gap contact-wrap">
 
+    {% content_block 'contact.reach_us' as cru %}
     <div class="reveal">
-      <span class="kicker">Reach Us</span>
-      <h2>Visit, call, or write</h2>
+      <span class="kicker">{{ cru.kicker }}</span>
+      <h2>{{ cru.title }}</h2>
 
       <div class="contact-card">
         <h3>🕉 Address</h3>
@@ -94,9 +93,10 @@
 
 <section class="section section--cream">
   <div class="container">
+    {% content_block 'contact.map_header' as cmh %}
     <header class="section-head reveal center">
-      <span class="kicker">Find Us</span>
-      <h2>On the map</h2>
+      <span class="kicker">{{ cmh.kicker }}</span>
+      <h2>{{ cmh.title }}</h2>
     </header>
     <div class="map-wrap reveal">
       <iframe

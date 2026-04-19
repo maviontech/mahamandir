@@ -3,22 +3,22 @@
 {% block title %}Donate — {{ SITE_NAME }}{% endblock %}
 
 {% block content %}
+{% load cms_tags %}
+{% content_block 'donate.hero' as dh %}
 <section class="page-hero page-hero--deep" style="background-image: linear-gradient(rgba(28,16,6,0.7), rgba(28,16,6,0.85)), url('{% static 'img/mahamandir/temple-night.jpg' %}');">
   <div class="container page-hero__inner">
-    <span class="kicker reveal">Dāna · Offering</span>
-    <h1 class="reveal">Your Offering, a Lamp of Light</h1>
-    <p class="lede reveal">
-      Every rupee you give becomes a meal, a teaching, a medicine,
-      a moment of silence for someone who needed it most.
-    </p>
+    <span class="kicker reveal">{{ dh.kicker }}</span>
+    <h1 class="reveal">{{ dh.title }}</h1>
+    <p class="lede reveal">{{ dh.subtitle }}</p>
   </div>
 </section>
 
 <section class="section">
   <div class="container">
+    {% content_block 'donate.streams_header' as dsh %}
     <header class="section-head reveal center">
-      <span class="kicker">Where your dāna goes</span>
-      <h2>Four streams of seva</h2>
+      <span class="kicker">{{ dsh.kicker }}</span>
+      <h2>{{ dsh.title }}</h2>
     </header>
 
     <div class="donate-tiers">
@@ -57,14 +57,11 @@
 
 <section class="section section--cream" id="donateForm">
   <div class="container grid grid--2 grid--center-gap">
+    {% content_block 'donate.form_intro' as dfi %}
     <div class="reveal">
-      <span class="kicker">Secure Offering</span>
-      <h2>Make a contribution</h2>
-      <p>
-        All donations to the Swarved Mahamandir Trust are eligible for
-        80G tax exemption under the Income Tax Act. A receipt will be
-        issued to the email address you provide.
-      </p>
+      <span class="kicker">{{ dfi.kicker }}</span>
+      <h2>{{ dfi.title }}</h2>
+      {% for p in dfi.paragraphs %}<p>{{ p }}</p>{% endfor %}
       <ul class="donate-benefits">
         <li>🙏 Your contribution goes directly to seva</li>
         <li>🧾 80G tax exemption receipt</li>
@@ -109,14 +106,12 @@
   </div>
 </section>
 
+{% content_block 'donate.closing_quote' as dcq %}
 <section class="section quote-band" style="background-image: linear-gradient(rgba(28,16,6,0.85), rgba(28,16,6,0.9)), url('{% static 'img/mahamandir/temple-night.jpg' %}');">
   <div class="container quote-band__inner reveal">
     <span class="quote-mark">“</span>
-    <blockquote>
-      दानं भोगं नाशः तिस्रो गतयो भवन्ति वित्तस्य ।<br/>
-      <em>Of wealth there are three fates — giving, enjoying, or losing. The first alone brings joy.</em>
-    </blockquote>
-    <cite>— Sanskrit Subhashita</cite>
+    <blockquote>{{ dcq.quote|linebreaksbr }}</blockquote>
+    {% if dcq.quote_cite %}<cite>{{ dcq.quote_cite }}</cite>{% endif %}
   </div>
 </section>
 {% endblock %}

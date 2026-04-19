@@ -72,6 +72,12 @@ urlpatterns = [
     path('manage/offerings/<int:pk>/del/',  a.offerings_delete,  name='admin_offerings_delete'),
     path('manage/offerings/reorder/',       a.offerings_reorder, name='admin_offerings_reorder'),
 
+    # Page content blocks
+    path('manage/content/',               a.blocks_list,     name='admin_blocks_list'),
+    path('manage/content/<int:pk>/',      a.blocks_edit,     name='admin_blocks_edit'),
+    path('manage/content/<int:pk>/publish/', a.blocks_publish, name='admin_blocks_publish'),
+    path('manage/content/<int:pk>/discard/', a.blocks_discard, name='admin_blocks_discard'),
+
     # Contact messages
     path('manage/messages/',              a.messages_list,   name='admin_messages_list'),
     path('manage/messages/<int:pk>/',     a.message_detail,  name='admin_message_detail'),

@@ -11,11 +11,12 @@ from django.db.models import Max
 
 from .models import (
     SiteSetting, HeroSlide, Event, Service, GalleryCategory, GalleryImage,
-    Testimonial, Stat, Offering, ContactMessage
+    Testimonial, Stat, Offering, ContactMessage, PageBlock
 )
 from .forms import (
     AdminLoginForm, SiteSettingForm, HeroSlideForm, EventForm, ServiceForm,
-    GalleryCategoryForm, GalleryImageForm, TestimonialForm, StatForm, OfferingForm
+    GalleryCategoryForm, GalleryImageForm, TestimonialForm, StatForm, OfferingForm,
+    PageBlockForm,
 )
 
 
@@ -60,8 +61,10 @@ def admin_logout(request):
 
 @staff_required
 def dashboard(request):
+    pending_drafts = PageBlock.objects.exclude(draft_data__isnull=True).exclude(draft_data={}).count()
     stats = [
         {'label': 'Hero Slides',       'count': HeroSlide.objects.count(),        'url': 'core:admin_hero_list',       'icon': '🎠'},
+        {'label': 'Page Content',      'count': PageBlock.objects.count(),        'url': 'core:admin_blocks_list',     'icon': '📝'},
         {'label': 'Events',            'count': Event.objects.count(),            'url': 'core:admin_events_list',     'icon': '📅'},
         {'label': 'Initiatives',       'count': Service.objects.count(),          'url': 'core:admin_services_list',   'icon': '🛕'},
         {'label': 'Gallery Categories','count': GalleryCategory.objects.count(),  'url': 'core:admin_gallery_list',    'icon': '🖼️'},
@@ -75,7 +78,75 @@ def dashboard(request):
     return render(request, 'admin_panel/dashboard.html', {
         'stats': stats,
         'unread_messages': unread,
+        'pending_drafts': pending_drafts,
     })
+
+
+# ---------------------------------------------------------------------------
+# Page content blocks — Save Draft / Publish workflow
+# ---------------------------------------------------------------------------
+
+@staff_required
+def blocks_list(request):
+    # Group by page for a cleaner UI
+    from collections import OrderedDict
+    grouped = OrderedDict()
+    for b in PageBlock.objects.all().order_by('page', 'order', 'id'):
+        grouped.setdefault(b.get_page_display(), []).append(b)
+    return render(request, 'admin_panel/list_blocks.html', {
+        'grouped': grouped,
+    })
+
+
+@staff_required
+def blocks_edit(request, pk):
+    obj = get_object_or_404(PageBlock, pk=pk)
+    form = PageBlockForm(request.POST or None, instance=obj)
+
+    if request.method == 'POST':
+        action = request.POST.get('action', 'save')
+        if action == 'discard':
+            obj.discard_draft()
+            messages.success(request, 'Draft discarded. Live content is unchanged.')
+            return redirect('core:admin_blocks_edit', pk=obj.pk)
+
+        if form.is_valid():
+            data = {k: form.cleaned_data.get(k, '') for k in form.fields.keys()}
+            if action == 'publish':
+                obj.save_draft(data)       # stash
+                obj.refresh_from_db()
+                obj.publish_draft()        # copy -> live, clear draft
+                messages.success(request, f'"{obj.label}" published. Live on the site.')
+            else:  # save_draft
+                obj.save_draft(data)
+                messages.success(request, f'"{obj.label}" saved as draft. Click Publish to make live.')
+            return redirect('core:admin_blocks_edit', pk=obj.pk)
+
+    return render(request, 'admin_panel/edit_block.html', {
+        'obj': obj,
+        'form': form,
+    })
+
+
+@staff_required
+@require_POST
+def blocks_publish(request, pk):
+    obj = get_object_or_404(PageBlock, pk=pk)
+    if obj.has_draft:
+        obj.publish_draft()
+        messages.success(request, f'"{obj.label}" published.')
+    else:
+        messages.info(request, 'No draft to publish.')
+    return redirect(request.META.get('HTTP_REFERER') or 'core:admin_blocks_list')
+
+
+@staff_required
+@require_POST
+def blocks_discard(request, pk):
+    obj = get_object_or_404(PageBlock, pk=pk)
+    obj.discard_draft()
+    messages.success(request, 'Draft discarded.')
+    return redirect(request.META.get('HTTP_REFERER') or 'core:admin_blocks_list')
 
 
 # ---------------------------------------------------------------------------

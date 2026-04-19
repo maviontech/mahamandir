@@ -1,0 +1,40 @@
+{% extends 'admin_panel/base.html' %}
+{% block page_title %}Page Content{% endblock %}
+
+{% block content %}
+<p class="muted">
+  Every editable text block on every page.
+  Edit, then <strong>Save</strong> to store a draft (not visible to visitors) or
+  <strong>Publish</strong> to make the change live.
+</p>
+
+{% for page_name, blocks in grouped.items %}
+<section class="admin-block-group">
+  <h2 class="admin-block-group__title">📄 {{ page_name }}</h2>
+  <div class="admin-block-list">
+    {% for b in blocks %}
+    <a href="{% url 'core:admin_blocks_edit' b.pk %}" class="admin-block-card">
+      <div class="admin-block-card__head">
+        <strong>{{ b.label }}</strong>
+        {% if b.has_draft %}<span class="badge badge--draft">Unpublished edit</span>
+        {% else %}<span class="badge badge--ok">Live</span>{% endif %}
+      </div>
+      <div class="admin-block-card__preview">
+        {% if b.kicker %}<span class="kicker-mini">— {{ b.kicker }}</span>{% endif %}
+        {% if b.title %}<strong class="preview-title">{{ b.title }}</strong>{% endif %}
+        {% if b.subtitle %}<p class="muted small">{{ b.subtitle|truncatewords:24 }}</p>
+        {% elif b.body %}<p class="muted small">{{ b.body|truncatewords:24 }}</p>
+        {% elif b.quote %}<p class="muted small"><em>"{{ b.quote|truncatewords:22 }}"</em></p>
+        {% endif %}
+      </div>
+      <span class="admin-block-card__key">{{ b.key }}</span>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% empty %}
+<div class="admin-empty">
+  No content blocks yet. Run <code>python manage.py seed_blocks</code> to populate defaults.
+</div>
+{% endfor %}
+{% endblock %}

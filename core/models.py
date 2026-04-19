@@ -247,6 +247,124 @@ class Offering(models.Model):
 
 
 # =============================================================================
+# Page text blocks — generic content for editable sections on any page
+# =============================================================================
+
+PAGE_CHOICES = [
+    ('home',       'Home Page'),
+    ('about',      'About / The Swarved'),
+    ('mahamandir', 'The Mandir'),
+    ('services',   'Initiatives'),
+    ('gallery',    'Gallery'),
+    ('events',     'Events'),
+    ('donate',     'Donate'),
+    ('contact',    'Contact'),
+]
+
+
+PUBLISHABLE_FIELDS = [
+    'kicker', 'title', 'subtitle', 'body',
+    'image_path', 'cta_label', 'cta_url',
+    'quote', 'quote_cite',
+]
+
+
+class PageBlock(models.Model):
+    """
+    A named, editable content block anywhere on the site.
+    Has full draft/publish lifecycle:
+
+      - Real fields (kicker, title, …) hold the CURRENTLY-PUBLISHED copy.
+      - `draft_data` JSON holds any unpublished edits.
+      - Save Draft → stashes form values in draft_data (public site unchanged).
+      - Publish    → copies draft_data → real fields, clears draft_data.
+    """
+    key = models.SlugField(max_length=120, unique=True,
+                           help_text='e.g. home.about_intro — do not change after creation')
+    page = models.CharField(max_length=20, choices=PAGE_CHOICES, default='home')
+    label = models.CharField(max_length=160,
+                             help_text='Human name shown in the admin (e.g. "About intro section")')
+
+    # ----- Published values (what the public site renders) -----
+    kicker = models.CharField(max_length=200, blank=True)
+    title = models.CharField(max_length=240, blank=True)
+    subtitle = models.TextField(blank=True,
+                                help_text='Optional lede / short paragraph under the title')
+    body = models.TextField(blank=True,
+                            help_text='Main paragraphs — separate with a blank line for multiple paragraphs')
+
+    image = models.ImageField(upload_to='blocks/', blank=True, null=True)
+    image_path = models.CharField(max_length=300, blank=True)
+
+    cta_label = models.CharField(max_length=120, blank=True)
+    cta_url = models.CharField(max_length=300, blank=True)
+
+    quote = models.TextField(blank=True, help_text='Optional inline pull-quote')
+    quote_cite = models.CharField(max_length=200, blank=True)
+
+    # ----- Draft state -----
+    draft_data = models.JSONField(blank=True, null=True,
+        help_text='Unpublished edits. Empty = no pending changes.')
+    last_published_at = models.DateTimeField(blank=True, null=True)
+
+    order = models.PositiveIntegerField(default=0)
+    is_active = models.BooleanField(default=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['page', 'order', 'id']
+
+    def __str__(self):
+        return f'[{self.page}] {self.label}  ({self.key})'
+
+    # --- Draft helpers ---
+    @property
+    def has_draft(self):
+        return bool(self.draft_data)
+
+    def draft_value(self, field_name, default=''):
+        """Return the draft value if drafted, else the live value."""
+        if self.draft_data and field_name in self.draft_data:
+            return self.draft_data[field_name]
+        return getattr(self, field_name, default)
+
+    def save_draft(self, data):
+        """Stash a dict of {field_name: value} into draft_data (does NOT touch live)."""
+        payload = {k: v for k, v in data.items() if k in PUBLISHABLE_FIELDS}
+        self.draft_data = payload or None
+        self.save(update_fields=['draft_data', 'updated_at'])
+
+    def publish_draft(self):
+        """Apply draft_data to real fields, clear draft, stamp timestamp."""
+        from django.utils import timezone
+        if self.draft_data:
+            for k, v in self.draft_data.items():
+                if k in PUBLISHABLE_FIELDS:
+                    setattr(self, k, v or '')
+        self.draft_data = None
+        self.last_published_at = timezone.now()
+        self.save()
+
+    def discard_draft(self):
+        self.draft_data = None
+        self.save(update_fields=['draft_data', 'updated_at'])
+
+    # --- Render helpers ---
+    @property
+    def paragraphs(self):
+        """Split body on blank lines so templates can render each <p>."""
+        if not self.body:
+            return []
+        return [p.strip() for p in self.body.split('\n\n') if p.strip()]
+
+    @property
+    def resolved_image(self):
+        if self.image:
+            return self.image.url
+        return None
+
+
+# =============================================================================
 # Contact submissions (already existed)
 # =============================================================================
 
